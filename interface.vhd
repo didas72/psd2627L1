@@ -4,7 +4,7 @@
 --
 -- Create Date: 09/13/2016 07:01:44 PM
 -- Design Name:
--- Module Name: fpga_basicIO - Behavioral
+-- Module Name: interface - Behavioral
 -- Project Name:
 -- Target Devices:
 -- Tool Versions:
@@ -22,17 +22,17 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use IEEE.STD_LOGIC_ARITH.all;
 use IEEE.STD_LOGIC_UNSIGNED.all;
-
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
 --use IEEE.NUMERIC_STD.ALL;
+
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity fpga_basicIO is
+entity interface is
   port (
     clk : in  std_logic;  -- 100MHz clock
     btnC, btnU, btnL, btnR, btnD : in  std_logic;  -- buttons
@@ -42,11 +42,12 @@ entity fpga_basicIO is
     seg : out std_logic_vector(6 downto 0);  -- display 7-segments
     dp  : out std_logic   -- display point
     );
-end fpga_basicIO;
+end interface;
 
-architecture Behavioral of fpga_basicIO is
+architecture Behavioral of interface is
   -- signal dd3, dd2, dd1, dd0 : std_logic_vector(6 downto 0);
-  signal res, reg1     : std_logic_vector(7 downto 0);
+  signal RESULT, REG1     : std_logic_vector(14 downto 0);
+  signal overflow         : std_logic;
   signal dact          : std_logic_vector(3 downto 0);
   -- signal btnRinstr : std_logic_vector(3 downto 0);
   -- signal clk10hz, clk_disp : std_logic;
@@ -55,6 +56,10 @@ architecture Behavioral of fpga_basicIO is
   signal btnCreg, btnUreg, btnLreg, btnRreg, btnDreg : std_logic;
   -- registered input switches
   signal sw_reg : std_logic_vector(15 downto 0);
+  -- signal to choose the button to be used as input for the circuit 0 if BTNL, 1 if BTNU
+  signal btn_sel : std_logic;
+  -- signal to light the decimal point of the display when the circuit overflows
+  signal dp_overflow : std_logic;
 
   component disp7
     port (
@@ -81,11 +86,12 @@ architecture Behavioral of fpga_basicIO is
     port(
       clk     : in  std_logic;
       rst     : in  std_logic;
-      exec    : in  std_logic;
-      instr   : in  std_logic_vector(1 downto 0);
-      data_in : in  std_logic_vector(7 downto 0);
-      reg1    : out std_logic_vector(7 downto 0);
-      res     : out std_logic_vector(7 downto 0)
+      equals  : in  std_logic;
+      OPER    : in  std_logic_vector(1 downto 0);
+      VALUE   : in  std_logic_vector(14 downto 0);
+      overflow: out  std_logic;
+      REG1    : out std_logic_vector(14 downto 0);
+      RESULT  : out std_logic_vector(14 downto 0)
       );
   end component;
 
@@ -95,11 +101,14 @@ begin
   dact <= "1111";
 
   inst_disp7 : disp7 port map(
-    digit3    => reg1(7 downto 4),
-    digit2    => reg1(3 downto 0),
-    digit1    => res(7 downto 4),
-    digit0    => res(3 downto 0),
-    dp3       => btnLreg, dp2 => btnDreg, dp1 => btnRreg, dp0 => btnUreg,
+    digit3    => RESULT(14 downto 12),
+    digit2    => RESULT(11 downto 8 ),
+    digit1    => RESULT(7  downto 4 ),
+    digit0    => RESULT(3  downto 0 ),
+    dp3       => dp_overflow, 
+    dp2       => dp_overflow, 
+    dp1       => dp_overflow, 
+    dp0       => dp_overflow,
     clk       => clk,
     dactive   => dact,
     en_disp_l => an,
@@ -108,11 +117,13 @@ begin
 
   inst_circuito : circuito port map(
     clk     => clk,
-    rst     => btnUreg,
-    exec    => btnRreg,
-    instr   => sw_reg(15 downto 14),
-    data_in => sw_reg(7 downto 0),
-    reg1    => reg1, res => res);
+    rst     => btnCreg,
+    equals  => btnRreg,
+    OPER    => sw_reg(15) & btn_sel,
+    VALUE   => sw_reg(14 downto 0),
+    REG1    => REG1, 
+    RESULT  => RESULT,
+    overflow => overflow);
 
   -- Debounces btn signals
   btn <= btnC & btnU & btnL & btnR & btnD;
@@ -134,6 +145,17 @@ begin
       btnRreg <= btnDeBnc(1);
       btnDreg <= btnDeBnc(0);
       sw_reg  <= sw;
+
+      if btnLreg = '1' then
+        btn_sel <= '0';
+      elsif btnUreg = '1' then
+        btn_sel <= '1';
+      end if;
+      if overflow = '1' then
+        dp_overflow <= '1';
+      else
+        dp_overflow <= '0';
+      end if;
     end if;
   end process;
 
