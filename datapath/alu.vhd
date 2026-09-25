@@ -3,11 +3,11 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity alu is
-    generic (N : integer := 8); -- alu operand width
+    generic (N : integer := 15); -- alu operand width
     port (
         OPERAND1, OPERAND2 : in std_logic_vector(N-1 downto 0);  -- operands
         OPER : in std_logic_vector(1 downto 0);                  -- operation
-        RESULT : out std_logic_vector(N-1 downto 0);             -- operation's result
+        ALU_RES : out std_logic_vector(N-1 downto 0);             -- operation's result
         ofl : out std_logic                                      -- overflow flag
     );
 end alu;
@@ -25,7 +25,7 @@ begin
     res_sum <= OPERAND1 + OPERAND2;
     if OPERAND1(OPERAND1'LEFT) xor OPERAND2(OPERAND2'LEFT) then -- if the operand's signs are different, no overflow can occur
         sum_ofl <= '0';
-    elsif RESULT(RESULT'LEFT) xor OPERAND1(OPERAND1'LEFT) then -- if signs are the same but the result's sign is different
+    elsif ALU_RES(ALU_RES'LEFT) xor OPERAND1(OPERAND1'LEFT) then -- if signs are the same but the result's sign is different
         sum_ofl <= '1'; 
     else
         sum_ofl <= '0';   -- signs are the same and the result's sign is also the same
@@ -47,19 +47,19 @@ begin
     sign_bit <= OPERAND1(OPERAND1'LEFT); -- using 'LEFT gets the MSB of OPERAND1 regardless of its size
     res_shift <= sign_bit & OPERAND1(OPERAND1'LEFT - 1 downto 1); -- "OPERAND1'LEFT - 1" = Second MSB
 
-    -- Set RESULT according to chosen operation
+    -- Set ALU_RES according to chosen operation
     case OPER is
         when '0' =>
-            RESULT <= res_sum;
+            ALU_RES <= res_sum;
             ofl <= sum_ofl;
         when '1' =>
-            RESULT <= res_mul(N-1 downto '0');
+            ALU_RES <= res_mul(N-1 downto '0');
             ofl <= mul_ofl;
         when '2' =>
-            RESULT <= res_or;
+            ALU_RES <= res_or;
             ofl = '0';
         when others =>
-            RESULT <= res_shift;
+            ALU_RES <= res_shift;
             ofl = '0';
     
 end archi;
