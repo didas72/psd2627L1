@@ -1,0 +1,23 @@
+Vivado Simulator v2025.2
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+Running: /apps/2025.2/2025.2/Vivado/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L secureip --snapshot interface_tb_behav xil_defaultlib.interface_tb -log elaborate.log 
+Using 8 slave threads.
+Starting static elaboration
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling package std.standard
+Compiling package std.textio
+Compiling package ieee.std_logic_1164
+Compiling package ieee.std_logic_arith
+Compiling package ieee.std_logic_unsigned
+Compiling package ieee.numeric_std
+Compiling package ieee.math_real
+Compiling architecture mixed of entity xil_defaultlib.disp7 [disp7_default]
+Compiling architecture stub of entity xil_defaultlib.circuito [circuito_default]
+Compiling architecture behavioral of entity xil_defaultlib.debouncer [\debouncer(debnc_clocks=1048576)...]
+Compiling architecture behavioral of entity xil_defaultlib.interface [interface_default]
+Compiling architecture behavior of entity xil_defaultlib.interface_tb
+Built simulation snapshot interface_tb_behav
