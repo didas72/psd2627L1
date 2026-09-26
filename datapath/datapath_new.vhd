@@ -6,7 +6,7 @@ entity datapath is
     port (
     VALUE : in  std_logic_vector (15 downto 0);
     OPER : in std_logic_vector (1 downto 0);
-    en_accum, rst_calculation : in  std_logic;
+    en_accum, rst_calculation, en_r1 : in  std_logic;
     clk : in  std_logic;
     overflow_flag : out std_logic;
     RESULT : out std_logic_vector (15 downto 0)
@@ -31,17 +31,17 @@ begin
                 REG2 <= X"00";
                 REG1 <= X"00";
             elsif en_accum = '1' then
-                REG2 <= RESULT;
+                REG2 <= ALU_RES;
             end if;
         end if;
     end process;
 
-  -- register R1
+  -- register 1
     process (clk)
     begin
         if clk'event and clk = '1' then
             if en_r1 = '1' then
-                register1 <= data_in;
+                REG1 <= VALUE;
             end if;
         end if;
     end process;
@@ -53,7 +53,7 @@ begin
             if equals_pressed = '1' then
                 RESULT <= REG2;
             else
-                RESULT <= VALUE
+                RESULT <= VALUE;
             end if;
         end if;
     end process;
