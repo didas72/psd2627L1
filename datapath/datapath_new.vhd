@@ -6,7 +6,7 @@ entity datapath is
     port (
     VALUE : in  std_logic_vector (15 downto 0);
     OPER : in std_logic_vector (1 downto 0);
-    en_accum, rst, en_r1, en_r2 : in  std_logic;
+    en_accum, rst, en_r1, en_r2, display_sel : in  std_logic;
     clk : in  std_logic;
     overflow_flag : out std_logic;
     RESULT : out std_logic_vector (15 downto 0)
@@ -16,11 +16,10 @@ end datapath;
 
 architecture behavioral of datapath is
     signal REG1, REG2 : std_logic_vector (15 downto 0);
-    signal OPERAND1, OPERAND2, ALU_RES : std_logic_vector (15 downto 0);
-    signal OPER : std_logic_vector (1 downto 0);
+    signal ALU_RES : std_logic_vector (15 downto 0);
 
     alu15: alu generic map (N => 15) 
-        port map (OPERAND1 => REG1, OPERAND2 => VALUE, ALU_RES => ALU_RES, ofl => overflow_flag);
+        port map (OPERAND1 => REG1, OPERAND2 => VALUE, OPER => OPER, ALU_RES => ALU_RES, ofl => overflow_flag);
 
 begin
 
@@ -40,7 +39,7 @@ begin
                 REG2 <= (others => '0');
                 REG1 <= (others => '0');
             end if;
-            
+
         end if;
     end process;
 
@@ -49,6 +48,6 @@ begin
 
     -- MUX bottom
     -- 1 => res | 0 => val
-    RESULT <= ALU_RES when (display_res_or_val = '1') else VALUE;
+    RESULT <= ALU_RES when (display_sel = '1') else VALUE;
 
 end behavioral;
