@@ -44,8 +44,8 @@ begin
     res_or <= OPERAND1 or OPERAND2;
 
     -- SRA
-    sign_bit <= OPERAND1(OPERAND1'LEFT); -- using 'LEFT gets the MSB of OPERAND1 regardless of its size
-    res_shift <= sign_bit & OPERAND1(OPERAND1'LEFT - 1 downto 1); -- "OPERAND1'LEFT - 1" = Second MSB
+    sign_bit <= OPERAND2(OPERAND2'LEFT); -- using 'LEFT gets the MSB of the operand regardless of its size
+    res_shift <= sign_bit & OPERAND2(OPERAND2'LEFT - 1 downto 1); -- "OPERAND2'LEFT - 1" = Second MSB
 
     -- Set ALU_RES according to chosen operation
     case OPER is
