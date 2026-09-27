@@ -10,6 +10,9 @@ entity control_unit is
         -- Clock signal
         clk  : in std_logic;
 
+        -- Equals pressed (provided by Interface)
+        equals : in  std_logic;
+
         -- Operation selector (provided by Interface)
         -- Can be:
         --   00 - ADD
