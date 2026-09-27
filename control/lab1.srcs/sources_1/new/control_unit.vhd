@@ -34,7 +34,7 @@ architecture behavioral of control_unit is
     -- 011 STlogic1 111 STlogic2
     -- 8 states, 3 bits
     -- First bit is ready to calculate result
-    signal state : std_logic_vector (2 downto 0);
+    signal STATE : std_logic_vector (2 downto 0);
 
     constant OPERadd : std_logic_vector (1 downto 0) := "00";
     constant OPERmul : std_logic_vector (1 downto 0) := "01";
@@ -61,31 +61,31 @@ begin
     begin
         if clk'event and clk = '1' then
             if rst = '1' then
-                state <= STinit;
-            elsif state = STinit then
+                STATE <= STinit;
+            elsif STATE = STinit then
                 if OPER = OPERadd then
-                    state <= STadd1;
+                    STATE <= STadd1;
                 elsif OPER = OPERmul then
-                    state <= STmul1;
+                    STATE <= STmul1;
                 elsif OPER = OPERor then
-                    state <= STor1;
+                    STATE <= STor1;
                 else -- OPERsra
-                    state <= STsra;
+                    STATE <= STsra;
                 end if;
-            elsif state = STadd1 then
-                state <= STadd2;
-            elsif state = STadd2 then
-                state <= STinit;
-            elsif state = STmul1 then
-                state <= STmul2;
-            elsif state = STmul2 then
-                state <= STinit;
-            elsif state = STor1 then
-                state <= STor2;
-            elsif state = STor2 then
-                state <= STinit;
+            elsif STATE = STadd1 then
+                STATE <= STadd2;
+            elsif STATE = STadd2 then
+                STATE <= STinit;
+            elsif STATE = STmul1 then
+                STATE <= STmul2;
+            elsif STATE = STmul2 then
+                STATE <= STinit;
+            elsif STATE = STor1 then
+                STATE <= STor2;
+            elsif STATE = STor2 then
+                STATE <= STinit;
             else --STsra
-                state <= STinit;
+                STATE <= STinit;
             end if;
         end if;
     end process;
