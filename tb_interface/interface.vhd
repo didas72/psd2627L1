@@ -90,7 +90,6 @@ architecture Behavioral of interface is
       OPER    : in  std_logic_vector(1 downto 0);
       VALUE   : in  std_logic_vector(14 downto 0);
       overflow: out  std_logic;
-      REG1    : out std_logic_vector(14 downto 0);
       RESULT  : out std_logic_vector(14 downto 0)
       );
   end component;
