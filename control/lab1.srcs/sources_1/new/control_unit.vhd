@@ -90,4 +90,42 @@ begin
         end if;
     end process;
 
+    -- output calculations
+    process (STATE)
+    begin
+        case STATE is
+            when STinit =>
+                ALU_SEL <= "00" -- anything
+                en_r1 <= '0'
+                en_r2 <= '0'
+            when STadd1 =>
+                ALU_SEL <= "00"
+                en_r1 <= '0'
+                en_r2 <= '0'
+            when STadd2 =>
+                ALU_SEL <= "00"
+                en_r1 <= '0'
+                en_r2 <= '0'
+            when STmul1 =>
+                ALU_SEL <= "00"
+                en_r1 <= '0'
+                en_r2 <= '0'
+            when STmul2 =>
+                ALU_SEL <= "00"
+                en_r1 <= '0'
+                en_r2 <= '0'
+            when STor1 =>
+                ALU_SEL <= "00"
+                en_r1 <= '0'
+                en_r2 <= '0'
+            when STor2 =>
+                ALU_SEL <= "00"
+                en_r1 <= '0'
+                en_r2 <= '0'
+            when others => --STsra
+                ALU_SEL <= "00"
+                en_r1 <= '0'
+                en_r2 <= '0'
+    end process;
+
 end behavioral;
