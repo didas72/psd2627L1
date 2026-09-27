@@ -4,13 +4,30 @@ use IEEE.NUMERIC_STD.all;
 
 entity control_unit is
     port (
-        OPER : in std_logic_vector (1 downto 0);
+        -- Reset signal
         Rst  : in std_logic;
-        Clk  : in std_logic);
+
+        -- Clock signal
+        Clk  : in std_logic;
+
+        -- Operation selector (provided by Interface)
+        -- Can be:
+        --   00 - ADD
+        --   00 - MUL
+        --   00 - OR
+        --   00 - SRA
+        OPER : in std_logic_vector (1 downto 0);
+
+        -- ALU operation MUX selector (passed to Datapath)
+        ALU_sel : out std_logic_vector(1 downto 0);
+
+        -- Register write control (passed to Datapath)
+        en_r1, en_r2 : out std_logic;
+        );
 end control_unit;
 
 
-architecture behavioral of control_unit is 
+architecture behavioral of control_unit is
     -- 000 STinit   100 STshift
     -- 001 STadd1   101 STadd2
     -- 010 STmul1   110 STmul2
@@ -18,12 +35,12 @@ architecture behavioral of control_unit is
     -- 8 states, 3 bits
     -- First bit is ready to calculate result
     signal state : std_logic_vector (2 downto 0);
-    
+
     constant OPERadd : std_logic_vector (1 downto 0) := "00";
     constant OPERmul : std_logic_vector (1 downto 0) := "01";
     constant OPERor : std_logic_vector (1 downto 0) := "10";
     constant OPERsra : std_logic_vector (1 downto 0) := "11";
-    
+
     constant STinit : std_logic_vector (2 downto 0) := "000";
     constant STadd1 : std_logic_vector (2 downto 0) := "001";
     constant STmul1 : std_logic_vector (2 downto 0) := "010";
