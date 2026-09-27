@@ -19,7 +19,7 @@ entity control_unit is
         OPER : in std_logic_vector (1 downto 0);
 
         -- ALU operation MUX selector (passed to Datapath)
-        ALU_sel : out std_logic_vector(1 downto 0);
+        ALU_SEL : out std_logic_vector(1 downto 0);
 
         -- Register write control (passed to Datapath)
         en_r1, en_r2 : out std_logic;
@@ -40,6 +40,11 @@ architecture behavioral of control_unit is
     constant OPERmul : std_logic_vector (1 downto 0) := "01";
     constant OPERor : std_logic_vector (1 downto 0) := "10";
     constant OPERsra : std_logic_vector (1 downto 0) := "11";
+
+    constant ALU_SELadd : std_logic_vector (1 downto 0) := "00";
+    constant ALU_SELmul : std_logic_vector (1 downto 0) := "01";
+    constant ALU_SELor : std_logic_vector (1 downto 0) := "10";
+    constant ALU_SELsra : std_logic_vector (1 downto 0) := "11";
 
     constant STinit : std_logic_vector (2 downto 0) := "000";
     constant STadd1 : std_logic_vector (2 downto 0) := "001";
