@@ -5,10 +5,10 @@ use IEEE.NUMERIC_STD.all;
 entity control_unit is
     port (
         -- Reset signal
-        Rst  : in std_logic;
+        rst  : in std_logic;
 
         -- Clock signal
-        Clk  : in std_logic;
+        clk  : in std_logic;
 
         -- Operation selector (provided by Interface)
         -- Can be:
@@ -55,7 +55,7 @@ begin
     process (clk)
     begin
         if clk'event and clk = '1' then
-            if Rst = '1' then
+            if rst = '1' then
                 state <= STinit;
             elsif state = STinit then
                 if OPER = OPERadd then
