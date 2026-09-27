@@ -13,9 +13,9 @@ entity control_unit is
         -- Operation selector (provided by Interface)
         -- Can be:
         --   00 - ADD
-        --   00 - MUL
-        --   00 - OR
-        --   00 - SRA
+        --   01 - MUL
+        --   10 - OR
+        --   11 - SRA
         OPER : in std_logic_vector (1 downto 0);
 
         -- ALU operation MUX selector (passed to Datapath)
