@@ -5,13 +5,18 @@ use IEEE.NUMERIC_STD.all;
 entity control_unit is
     port (
         -- Reset signal
-        rst  : in std_logic;
+        rst : in std_logic;
 
         -- Clock signal
-        clk  : in std_logic;
+        clk : in std_logic;
 
         -- Equals pressed (provided by Interface)
-        equals : in  std_logic;
+        -- Set high for one clk pulse to signal equals button was pressed
+        equals : in std_logic;
+
+        -- Oper was changed (provided by Interface)
+        -- Set high for one clk pulse to signal an operation button was pressed
+        oper_avail : in std_logic;
 
         -- Operation selector (provided by Interface)
         -- Can be:
@@ -26,11 +31,18 @@ entity control_unit is
 
         -- Register write control (passed to Datapath)
         en_r1, en_r2 : out std_logic;
+
+        -- Display output selector (passed to Datapath)
+        -- Can be:
+        --   LOW - Display shows VALUE
+        --   HIGH - Display shows ALU_RES
+        display_sel : out std_logic;
         );
 end control_unit;
 
 
 architecture behavioral of control_unit is
+    -- TODO: Will need another state for after pressing equals
     -- 000 STinit   100 STshift
     -- 001 STadd1   101 STadd2
     -- 010 STmul1   110 STmul2
