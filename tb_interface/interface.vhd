@@ -47,7 +47,7 @@ end interface;
 architecture Behavioral of interface is
   -- signal dd3, dd2, dd1, dd0 : std_logic_vector(6 downto 0);
   signal RESULT, REG1                                : std_logic_vector(14 downto 0);
-  signal overflow                                    : std_logic;
+  signal overflow_flag                               : std_logic;
   signal dact                                        : std_logic_vector(3 downto 0);
   -- signal btnRinstr : std_logic_vector(3 downto 0);
   -- signal clk10hz, clk_disp : std_logic;
@@ -89,14 +89,14 @@ architecture Behavioral of interface is
 
   component circuito
     port(
-      clk        : in  std_logic;
-      rst        : in  std_logic;
-      equals     : in  std_logic;
-      oper_avail : in  std_logic;
-      OPER       : in  std_logic_vector(1 downto 0);
-      VALUE      : in  std_logic_vector(14 downto 0);
-      overflow   : out  std_logic;
-      RESULT     : out std_logic_vector(14 downto 0)
+      clk             : in  std_logic;
+      rst             : in  std_logic;
+      equals          : in  std_logic;
+      oper_avail      : in  std_logic;
+      OPER            : in  std_logic_vector(1 downto 0);
+      VALUE           : in  std_logic_vector(14 downto 0);
+      overflow_flag   : out  std_logic;
+      RESULT          : out std_logic_vector(14 downto 0)
       );
   end component;
 
@@ -121,14 +121,15 @@ begin
     dp_l      => dp);
 
   inst_circuito : circuito port map(
-    clk     => clk,
-    rst     => btnCreg,
-    equals  => btnRreg,
-    OPER    => sw_reg(15) & btn_sel,
-    VALUE   => sw_reg(14 downto 0),
-    REG1    => REG1, 
-    RESULT  => RESULT,
-    overflow => overflow);
+    clk           => clk,
+    rst           => btnCreg,
+    equals        => btnRreg,
+    oper_avail    => oper_avail,
+    OPER          => sw_reg(15) & btn_sel,
+    VALUE         => sw_reg(14 downto 0),
+    RESULT        => RESULT
+    overflow_flag => overflow_flag
+    );
 
   -- Debounces btn signals
   btn <= btnC & btnU & btnL & btnR & btnD;
