@@ -67,6 +67,9 @@ architecture Behavioral of interface is
   signal OPER_PREVIOUS                               : std_logic_vector(1 downto 0);
   signal OPER                                        : std_logic_vector(1 downto 0);
   signal digit3_aux                                  : std_logic_vector(3 downto 0);
+  signal OPER_AUX                                    : std_logic_vector(1 downto 0);
+  
+  
   component disp7
     port (
       digit3, digit2, digit1, digit0 : in  std_logic_vector(3 downto 0);
@@ -126,9 +129,9 @@ begin
     rst           => btnCreg,
     equals        => btnRreg,
     oper_avail    => oper_avail,
-    OPER          => sw_reg(15) & btn_sel,
+    OPER          => OPER_AUX,
     VALUE         => sw_reg(14 downto 0),
-    RESULT        => RESULT
+    RESULT        => RESULT,
     overflow_flag => overflow_flag
     );
 
@@ -145,6 +148,7 @@ begin
 
 
   digit3_aux <= "0" & RESULT(14 downto 12);
+  OPER_AUX   <= sw_reg(15) & btn_sel;
 
   process (clk)
   begin
@@ -168,7 +172,7 @@ begin
         oper_avail <= '1';
       end if;
 
-      if overflow = '1' then
+      if overflow_flag = '1' then
         dp_overflow <= '1';
       else
         dp_overflow <= '0';
