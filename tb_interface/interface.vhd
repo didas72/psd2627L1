@@ -66,7 +66,7 @@ architecture Behavioral of interface is
   -- signal to verify if the OPER value is different from the previous one, if it is different, then the control unit will be informed
   signal OPER_PREVIOUS                               : std_logic_vector(1 downto 0);
   signal OPER                                        : std_logic_vector(1 downto 0);
-
+  signal digit3_aux                                  : std_logic_vector(3 downto 0);
   component disp7
     port (
       digit3, digit2, digit1, digit0 : in  std_logic_vector(3 downto 0);
@@ -107,7 +107,7 @@ begin
   dact <= "1111";
 
   inst_disp7 : disp7 port map(
-    digit3    => "0" & RESULT(14 downto 12),
+    digit3    => digit3_aux,
     digit2    => RESULT(11 downto 8 ),
     digit1    => RESULT(7  downto 4 ),
     digit0    => RESULT(3  downto 0 ),
@@ -142,6 +142,9 @@ begin
       signal_i => btn,
       clk_i    => clk,
       signal_o => btnDeBnc);
+
+
+  digit3_aux <= "0" & RESULT(14 downto 12);
 
   process (clk)
   begin
