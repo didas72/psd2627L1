@@ -18,12 +18,12 @@ architecture archi of alu is
     signal res_mul : std_logic_vector(2*N-1 downto 0);
     signal zeros_vector, ones_vector : std_logic_vector(N-1 downto 0);
 begin
-    zeros_vector <= (others => '0');
-    ones_vector <= (others => '1');
+    zeros_vector <= (others => "0");
+    ones_vector <= (others => "1");
 
     -- SUM
     res_sum <= std_logic_vector(signed(OPERAND1) + signed(OPERAND2));
-    sum_ofl <= (not (OPERAND1(OPERAND1'LEFT) xor OPERAND2(OPERAND2'LEFT))) and (ALU_RES(ALU_RES'LEFT) xor OPERAND1(OPERAND1'LEFT))
+    sum_ofl <= (not (OPERAND1(OPERAND1'LEFT) xor OPERAND2(OPERAND2'LEFT))) and (ALU_RES(ALU_RES'LEFT) xor OPERAND1(OPERAND1'LEFT));
     --if OPERAND1(OPERAND1'LEFT) xor OPERAND2(OPERAND2'LEFT) then -- if the operand's signs are different, no overflow can occur
     --    sum_ofl <= '0';
     --elsif ALU_RES(ALU_RES'LEFT) xor OPERAND1(OPERAND1'LEFT) then -- if signs are the same but the result's sign is different
@@ -34,7 +34,7 @@ begin
 
     -- MUL
     res_mul <= std_logic_vector(signed(OPERAND1) * signed(OPERAND2));
-    mul_ofl <= (not (OPERAND1 = '0' or OPERAND2 = '0')) or (res_mul(N-1)and ((res_mul(res_mul'LEFT downto N) /= zeros_vector) or res_mul(res_mul'LEFT downto N) /= ones_vector))
+    mul_ofl <= (not (OPERAND1 = "0" or OPERAND2 = "0")) or (res_mul(N-1)and ((res_mul(res_mul'LEFT downto N) /= zeros_vector) or res_mul(res_mul'LEFT downto N) /= ones_vector));
     
     --if OPERAND1 = '0' or OPERAND2 = '0' then
     --    mul_ofl = '0';
@@ -54,13 +54,13 @@ begin
     process (ALU_SEL)
     begin
         case ALU_SEL is
-            when '0' =>
+            when "00" =>
                 ALU_RES <= res_sum;
                 ofl <= sum_ofl;
-            when '1' =>
+            when "01" =>
                 ALU_RES <= res_mul(N-1 downto 0);
                 ofl <= mul_ofl;
-            when '2' =>
+            when "10" =>
                 ALU_RES <= res_or;
                 ofl <= '0';
             when others =>

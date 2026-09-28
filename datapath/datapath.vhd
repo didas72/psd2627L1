@@ -18,11 +18,10 @@ architecture behavioral of datapath is
     signal REG1, REG2 : std_logic_vector (14 downto 0);
     signal ALU_RES : std_logic_vector (14 downto 0);
 
-    alu15: alu generic map (N => 15) 
-        port map (OPERAND1 => REG1, OPERAND2 => VALUE, ALU_SEL => ALU_SEL, ALU_RES => ALU_RES, ofl => overflow_flag);
 
 begin
-
+    alu15: alu generic map (N => 15)
+        port map (OPERAND1 => REG1, OPERAND2 => VALUE, ALU_SEL => ALU_SEL, ALU_RES => ALU_RES, ofl => overflow_flag);
     process (clk)
     begin
         if clk'event and clk = '1' then

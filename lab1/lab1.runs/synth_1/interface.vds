@@ -3,8 +3,8 @@
 # SW Build 6299465 on Fri Nov 14 12:34:56 MST 2025
 # IP Build 6300035 on Fri Nov 14 10:48:45 MST 2025
 # SharedData Build 6298862 on Thu Nov 13 04:50:51 MST 2025
-# Start of session at: Mon Sep 28 17:07:45 2026
-# Process ID         : 9158
+# Start of session at: Mon Sep 28 17:44:47 2026
+# Process ID         : 16177
 # Current directory  : /home/garcia/Desktop/PSD/psd2627L1/lab1/lab1.runs/synth_1
 # Command line       : vivado -log interface.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source interface.tcl
 # Log file           : /home/garcia/Desktop/PSD/psd2627L1/lab1/lab1.runs/synth_1/interface.vds
@@ -13,13 +13,13 @@
 # Platform           : Fedora
 # Operating System   : Fedora Linux 44 (KDE Plasma Desktop Edition)
 # Processor Detail   : AMD Ryzen 7 7840HS w/ Radeon 780M Graphics
-# CPU Frequency      : 2741.305 MHz
+# CPU Frequency      : 2369.519 MHz
 # CPU Physical cores : 8
 # CPU Logical cores  : 16
 # Host memory        : 15995 MB
 # Swap memory        : 8589 MB
 # Total Virtual      : 24585 MB
-# Available Virtual  : 19073 MB
+# Available Virtual  : 17442 MB
 #-----------------------------------------------------------
 source interface.tcl -notrace
 Command: synth_design -top interface -part xc7a35tcpg236-1
@@ -29,41 +29,249 @@ INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t
 INFO: [Device 21-403] Loading part xc7a35tcpg236-1
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 7 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 9188
+INFO: [Synth 8-7075] Helper process launched with PID 16208
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:03 . Memory (MB): peak = 2417.980 ; gain = 485.125 ; free physical = 3047 ; free virtual = 16850
+Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2416.746 ; gain = 487.531 ; free physical = 1230 ; free virtual = 15466
 ---------------------------------------------------------------------------------
-ERROR: [Synth 8-9493] found '0' definitions of operator "+", cannot determine exact overloaded matching definition for "+" [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:25]
-ERROR: [Synth 8-2716] syntax error near 'if' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:26]
-ERROR: [Synth 8-2716] syntax error near 'xor' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:26]
-ERROR: [Synth 8-2716] syntax error near 'then' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:26]
-ERROR: [Synth 8-2716] syntax error near 'elsif' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:28]
-ERROR: [Synth 8-2716] syntax error near 'xor' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:28]
-ERROR: [Synth 8-2716] syntax error near 'then' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:28]
-ERROR: [Synth 8-2716] syntax error near 'else' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:30]
-ERROR: [Synth 8-2716] syntax error near 'if' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:32]
-ERROR: [Synth 8-9493] found '0' definitions of operator "*", cannot determine exact overloaded matching definition for "*" [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:35]
-ERROR: [Synth 8-2716] syntax error near 'if' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:36]
-ERROR: [Synth 8-2716] syntax error near '=' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:38]
-ERROR: [Synth 8-2716] syntax error near 'else' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:40]
-ERROR: [Synth 8-2716] syntax error near 'case' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:51]
-ERROR: [Synth 8-2716] syntax error near 'when' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:55]
-ERROR: [Synth 8-9288] character ''0'' is not in type 'natural' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:56]
-ERROR: [Synth 8-2716] syntax error near 'when' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:58]
-ERROR: [Synth 8-2716] syntax error near '=' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:60]
-ERROR: [Synth 8-2716] syntax error near '=' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:63]
-INFO: [Synth 8-11252] unit 'archi' is ignored due to previous errors [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:65]
-INFO: [Synth 8-10443] VHDL file '/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd' is ignored due to errors
-ERROR: [Synth 8-12189] Failed to read vhdl '/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd'
+INFO: [Synth 8-638] synthesizing module 'interface' [/home/garcia/Desktop/PSD/psd2627L1/tb_interface/interface.vhd:47]
+INFO: [Synth 8-3491] module 'disp7' declared at '/home/garcia/Desktop/PSD/psd2627L1/tb_interface/disp7.vhd:9' bound to instance 'inst_disp7' of component 'disp7' [/home/garcia/Desktop/PSD/psd2627L1/tb_interface/interface.vhd:112]
+INFO: [Synth 8-638] synthesizing module 'disp7' [/home/garcia/Desktop/PSD/psd2627L1/tb_interface/disp7.vhd:21]
+INFO: [Synth 8-256] done synthesizing module 'disp7' (0#1) [/home/garcia/Desktop/PSD/psd2627L1/tb_interface/disp7.vhd:21]
+INFO: [Synth 8-3491] module 'circuito' declared at '/home/garcia/Desktop/PSD/psd2627L1/tb_interface/circuito.vhd:4' bound to instance 'inst_circuito' of component 'circuito' [/home/garcia/Desktop/PSD/psd2627L1/tb_interface/interface.vhd:127]
+INFO: [Synth 8-638] synthesizing module 'circuito' [/home/garcia/Desktop/PSD/psd2627L1/tb_interface/circuito.vhd:17]
+INFO: [Synth 8-3491] module 'control_unit' declared at '/home/garcia/Desktop/PSD/psd2627L1/control/lab1.srcs/sources_1/new/control_unit.vhd:5' bound to instance 'inst_control' of component 'control_unit' [/home/garcia/Desktop/PSD/psd2627L1/tb_interface/circuito.vhd:59]
+INFO: [Synth 8-638] synthesizing module 'control_unit' [/home/garcia/Desktop/PSD/psd2627L1/control/lab1.srcs/sources_1/new/control_unit.vhd:50]
+INFO: [Synth 8-256] done synthesizing module 'control_unit' (0#1) [/home/garcia/Desktop/PSD/psd2627L1/control/lab1.srcs/sources_1/new/control_unit.vhd:50]
+INFO: [Synth 8-637] synthesizing blackbox instance 'inst_datapath' of component 'datapath' [/home/garcia/Desktop/PSD/psd2627L1/tb_interface/circuito.vhd:74]
+INFO: [Synth 8-256] done synthesizing module 'circuito' (0#1) [/home/garcia/Desktop/PSD/psd2627L1/tb_interface/circuito.vhd:17]
+	Parameter DEBNC_CLOCKS bound to: 1048576 - type: integer 
+	Parameter PORT_WIDTH bound to: 5 - type: integer 
+INFO: [Synth 8-3491] module 'debouncer' declared at '/home/garcia/Desktop/PSD/psd2627L1/tb_interface/debouncer.vhd:42' bound to instance 'Inst_btn_debounce' of component 'debouncer' [/home/garcia/Desktop/PSD/psd2627L1/tb_interface/interface.vhd:140]
+INFO: [Synth 8-638] synthesizing module 'debouncer' [/home/garcia/Desktop/PSD/psd2627L1/tb_interface/debouncer.vhd:50]
+	Parameter DEBNC_CLOCKS bound to: 1048576 - type: integer 
+	Parameter PORT_WIDTH bound to: 5 - type: integer 
+INFO: [Synth 8-256] done synthesizing module 'debouncer' (0#1) [/home/garcia/Desktop/PSD/psd2627L1/tb_interface/debouncer.vhd:50]
+INFO: [Synth 8-256] done synthesizing module 'interface' (0#1) [/home/garcia/Desktop/PSD/psd2627L1/tb_interface/interface.vhd:47]
+WARNING: [Synth 8-6014] Unused sequential element btnDreg_reg was removed.  [/home/garcia/Desktop/PSD/psd2627L1/tb_interface/interface.vhd:160]
+WARNING: [Synth 8-3848] Net OPER in module/entity interface does not have driver. [/home/garcia/Desktop/PSD/psd2627L1/tb_interface/interface.vhd:68]
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2499.918 ; gain = 567.062 ; free physical = 2964 ; free virtual = 16767
+Finished RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2509.715 ; gain = 580.500 ; free physical = 1128 ; free virtual = 15365
 ---------------------------------------------------------------------------------
-RTL Elaboration failed
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2527.527 ; gain = 598.312 ; free physical = 1133 ; free virtual = 15370
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2527.527 ; gain = 598.312 ; free physical = 1133 ; free virtual = 15370
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2527.527 ; gain = 0.000 ; free physical = 1133 ; free virtual = 15370
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/home/garcia/Downloads/lab0Files2026/Basys3_Master.xdc]
+Finished Parsing XDC File [/home/garcia/Downloads/lab0Files2026/Basys3_Master.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [/home/garcia/Downloads/lab0Files2026/Basys3_Master.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/interface_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/interface_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2639.297 ; gain = 0.000 ; free physical = 1100 ; free virtual = 15352
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2639.332 ; gain = 0.000 ; free physical = 1101 ; free virtual = 15353
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 2639.332 ; gain = 710.117 ; free physical = 1111 ; free virtual = 15363
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7a35tcpg236-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 2647.301 ; gain = 718.086 ; free physical = 1111 ; free virtual = 15363
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 2647.301 ; gain = 718.086 ; free physical = 1111 ; free virtual = 15363
+---------------------------------------------------------------------------------
+INFO: [Synth 8-802] inferred FSM for state register 'STATE_reg' in module 'control_unit'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                 iSTATE4 |                           100000 |                              000
+*
+                 iSTATE3 |                           000010 |                              001
+                 iSTATE2 |                           000100 |                              010
+                 iSTATE1 |                           001000 |                              011
+                 iSTATE0 |                           010000 |                              100
+                  iSTATE |                           000001 |                              101
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'STATE_reg' using encoding 'one-hot' in module 'control_unit'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 2647.301 ; gain = 718.086 ; free physical = 1107 ; free virtual = 15360
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---XORs : 
+	   2 Input      1 Bit         XORs := 5     
++---Registers : 
+	               16 Bit    Registers := 1     
+	                5 Bit    Registers := 1     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 7     
++---Muxes : 
+	   2 Input    6 Bit        Muxes := 2     
+	   4 Input    6 Bit        Muxes := 1     
+	   4 Input    4 Bit        Muxes := 2     
+	   6 Input    2 Bit        Muxes := 1     
+	   4 Input    1 Bit        Muxes := 1     
+	   2 Input    1 Bit        Muxes := 9     
+	   6 Input    1 Bit        Muxes := 1     
+	   5 Input    1 Bit        Muxes := 2     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 90 (col length:60)
+BRAMs: 100 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-3332] Sequential element (inst_circuito/inst_control/FSM_onehot_STATE_reg[0]) is unused and will be removed from module interface.
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 2647.301 ; gain = 718.086 ; free physical = 1094 ; free virtual = 15352
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:12 ; elapsed = 00:00:12 . Memory (MB): peak = 2689.301 ; gain = 760.086 ; free physical = 980 ; free virtual = 15247
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:12 ; elapsed = 00:00:12 . Memory (MB): peak = 2710.332 ; gain = 781.117 ; free physical = 965 ; free virtual = 15233
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:12 ; elapsed = 00:00:12 . Memory (MB): peak = 2711.340 ; gain = 782.125 ; free physical = 959 ; free virtual = 15226
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2886.152 ; gain = 956.938 ; free physical = 795 ; free virtual = 15063
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2886.152 ; gain = 956.938 ; free physical = 795 ; free virtual = 15063
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2886.152 ; gain = 956.938 ; free physical = 795 ; free virtual = 15063
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2886.152 ; gain = 956.938 ; free physical = 795 ; free virtual = 15063
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2886.152 ; gain = 956.938 ; free physical = 795 ; free virtual = 15063
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2886.152 ; gain = 956.938 ; free physical = 795 ; free virtual = 15063
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++------+--------------+----------+
+|      |BlackBox name |Instances |
++------+--------------+----------+
+|1     |datapath      |         1|
++------+--------------+----------+
+
+Report Cell Usage: 
++------+--------------+------+
+|      |Cell          |Count |
++------+--------------+------+
+|1     |datapath_bbox |     1|
+|2     |BUFG          |     1|
+|3     |CARRY4        |    25|
+|4     |LUT1          |     6|
+|5     |LUT2          |     6|
+|6     |LUT3          |     1|
+|7     |LUT4          |    20|
+|8     |LUT5          |     8|
+|9     |LUT6          |    15|
+|10    |FDRE          |   130|
+|11    |FDSE          |     1|
+|12    |IBUF          |    21|
+|13    |OBUF          |    28|
++------+--------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2886.152 ; gain = 956.938 ; free physical = 795 ; free virtual = 15063
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 1 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:13 ; elapsed = 00:00:13 . Memory (MB): peak = 2886.152 ; gain = 845.133 ; free physical = 796 ; free virtual = 15063
+Synthesis Optimization Complete : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2886.160 ; gain = 956.938 ; free physical = 796 ; free virtual = 15063
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2886.160 ; gain = 0.000 ; free physical = 795 ; free virtual = 15062
+INFO: [Netlist 29-17] Analyzing 25 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2942.180 ; gain = 0.000 ; free physical = 964 ; free virtual = 15232
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Synth Design complete | Checksum: 9b12ebe8
 INFO: [Common 17-83] Releasing license: Synthesis
-8 Infos, 0 Warnings, 0 Critical Warnings and 21 Errors encountered.
-synth_design failed
-synth_design: Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 2499.926 ; gain = 664.406 ; free physical = 2965 ; free virtual = 16768
-INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 1704.104; main = 1410.011; forked = 294.094
-INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 4146.594; main = 2499.922; forked = 1646.672
-ERROR: [Common 17-69] Command failed: Synthesis failed - please see the console or run log file for details
-INFO: [Common 17-206] Exiting Vivado at Mon Sep 28 17:07:53 2026...
+32 Infos, 3 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:19 ; elapsed = 00:00:18 . Memory (MB): peak = 2942.215 ; gain = 1105.336 ; free physical = 964 ; free virtual = 15232
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 1813.391; main = 1813.391; forked = 283.385
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 4293.984; main = 2942.184; forked = 1646.680
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2966.191 ; gain = 0.000 ; free physical = 964 ; free virtual = 15232
+INFO: [Common 17-1381] The checkpoint '/home/garcia/Desktop/PSD/psd2627L1/lab1/lab1.runs/synth_1/interface.dcp' has been generated.
+INFO: [Vivado 12-24828] Executing command : report_utilization -file interface_utilization_synth.rpt -pb interface_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Mon Sep 28 17:45:08 2026...

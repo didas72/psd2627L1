@@ -74,9 +74,8 @@ set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_vhdl -library xil_defaultlib {
-  /home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd
   /home/garcia/Desktop/PSD/psd2627L1/tb_interface/circuito.vhd
-  /home/garcia/Desktop/PSD/psd2627L1/datapath/datapath_new.vhd
+  /home/garcia/Desktop/PSD/psd2627L1/control/lab1.srcs/sources_1/new/control_unit.vhd
   /home/garcia/Desktop/PSD/psd2627L1/tb_interface/debouncer.vhd
   /home/garcia/Desktop/PSD/psd2627L1/tb_interface/disp7.vhd
   /home/garcia/Desktop/PSD/psd2627L1/tb_interface/interface.vhd
