@@ -46,20 +46,25 @@ end interface;
 
 architecture Behavioral of interface is
   -- signal dd3, dd2, dd1, dd0 : std_logic_vector(6 downto 0);
-  signal RESULT, REG1     : std_logic_vector(14 downto 0);
-  signal overflow         : std_logic;
-  signal dact          : std_logic_vector(3 downto 0);
+  signal RESULT, REG1                                : std_logic_vector(14 downto 0);
+  signal overflow                                    : std_logic;
+  signal dact                                        : std_logic_vector(3 downto 0);
   -- signal btnRinstr : std_logic_vector(3 downto 0);
   -- signal clk10hz, clk_disp : std_logic;
-  signal btn, btnDeBnc : std_logic_vector(4 downto 0);
+  signal btn, btnDeBnc                               : std_logic_vector(4 downto 0);
   -- registered input buttons
   signal btnCreg, btnUreg, btnLreg, btnRreg, btnDreg : std_logic;
   -- registered input switches
-  signal sw_reg : std_logic_vector(15 downto 0);
+  signal sw_reg                                      : std_logic_vector(15 downto 0);
   -- signal to choose the button to be used as input for the circuit 0 if BTNL, 1 if BTNU
-  signal btn_sel : std_logic;
+  signal btn_sel                                     : std_logic;
   -- signal to light the decimal point of the display when the circuit overflows
-  signal dp_overflow : std_logic;
+  signal dp_overflow                                 : std_logic;
+
+  -- signal to inform the control unit that an operation button was pressed
+  signal oper_avail                                  : std_logic;
+  -- signal to verify if the OPER value is different from the previous one, if it is different, then the control unit will be informed
+  signal OPER_PREVIOUS                               : std_logic_vector(1 downto 0);
 
   component disp7
     port (
@@ -84,13 +89,14 @@ architecture Behavioral of interface is
 
   component circuito
     port(
-      clk     : in  std_logic;
-      rst     : in  std_logic;
-      equals  : in  std_logic;
-      OPER    : in  std_logic_vector(1 downto 0);
-      VALUE   : in  std_logic_vector(14 downto 0);
-      overflow: out  std_logic;
-      RESULT  : out std_logic_vector(14 downto 0)
+      clk        : in  std_logic;
+      rst        : in  std_logic;
+      equals     : in  std_logic;
+      oper_avail : in  std_logic;
+      OPER       : in  std_logic_vector(1 downto 0);
+      VALUE      : in  std_logic_vector(14 downto 0);
+      overflow   : out  std_logic;
+      RESULT     : out std_logic_vector(14 downto 0)
       );
   end component;
 
@@ -150,11 +156,20 @@ begin
       elsif btnUreg = '1' then
         btn_sel <= '1';
       end if;
+      
+      OPER_PREVIOUS <= OPER;
+      if OPER_PREVIOUS = OPER then
+        oper_avail <= '0';
+      else
+        oper_avail <= '1';
+      end if;
+
       if overflow = '1' then
         dp_overflow <= '1';
       else
         dp_overflow <= '0';
       end if;
+      
     end if;
   end process;
 
