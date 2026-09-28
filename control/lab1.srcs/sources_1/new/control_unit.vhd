@@ -42,33 +42,33 @@ end control_unit;
 
 
 architecture behavioral of control_unit is
-    -- TODO: Will need another state for after pressing equals
-    -- 000 STinit   100 STshift
-    -- 001 STadd1   101 STadd2
-    -- 010 STmul1   110 STmul2
-    -- 011 STlogic1 111 STlogic2
-    -- 8 states, 3 bits
-    -- First bit is ready to calculate result
+    -- 000 STwait1
+    -- 001 STadd
+    -- 010 STmul
+    -- 011 STor
+    -- 100 STsra_pt1
+    -- 101 STdone
+    --
+    -- 6 (valid) states, 3 bits
     signal STATE : std_logic_vector (2 downto 0);
 
     constant OPERadd : std_logic_vector (1 downto 0) := "00";
     constant OPERmul : std_logic_vector (1 downto 0) := "01";
-    constant OPERor : std_logic_vector (1 downto 0) := "10";
+    constant OPERor :  std_logic_vector (1 downto 0) := "10";
     constant OPERsra : std_logic_vector (1 downto 0) := "11";
 
     constant ALU_SELadd : std_logic_vector (1 downto 0) := "00";
     constant ALU_SELmul : std_logic_vector (1 downto 0) := "01";
-    constant ALU_SELor : std_logic_vector (1 downto 0) := "10";
+    constant ALU_SELor :  std_logic_vector (1 downto 0) := "10";
     constant ALU_SELsra : std_logic_vector (1 downto 0) := "11";
 
-    constant STinit : std_logic_vector (2 downto 0) := "000";
-    constant STadd1 : std_logic_vector (2 downto 0) := "001";
-    constant STmul1 : std_logic_vector (2 downto 0) := "010";
-    constant STor1 : std_logic_vector (2 downto 0) := "011";
-    constant STsra : std_logic_vector (2 downto 0) := "100";
-    constant STadd2 : std_logic_vector (2 downto 0) := "101";
-    constant STmul2 : std_logic_vector (2 downto 0) := "110";
-    constant STor2 : std_logic_vector (2 downto 0) := "111";
+    constant STwait1 :   std_logic_vector (2 downto 0) := "000";
+    constant STadd :     std_logic_vector (2 downto 0) := "001";
+    constant STmul :     std_logic_vector (2 downto 0) := "010";
+    constant STor :      std_logic_vector (2 downto 0) := "011";
+    constant STsra_pt1 : std_logic_vector (2 downto 0) := "100";
+    constant STdone :    std_logic_vector (2 downto 0) := "101";
+
 begin
 
     -- state register
@@ -77,30 +77,6 @@ begin
         if clk'event and clk = '1' then
             if rst = '1' then
                 STATE <= STinit;
-            elsif STATE = STinit then
-                if OPER = OPERadd then
-                    STATE <= STadd1;
-                elsif OPER = OPERmul then
-                    STATE <= STmul1;
-                elsif OPER = OPERor then
-                    STATE <= STor1;
-                else -- OPERsra
-                    STATE <= STsra;
-                end if;
-            elsif STATE = STadd1 then
-                STATE <= STadd2;
-            elsif STATE = STadd2 then
-                STATE <= STinit;
-            elsif STATE = STmul1 then
-                STATE <= STmul2;
-            elsif STATE = STmul2 then
-                STATE <= STinit;
-            elsif STATE = STor1 then
-                STATE <= STor2;
-            elsif STATE = STor2 then
-                STATE <= STinit;
-            else --STsra
-                STATE <= STinit;
             end if;
         end if;
     end process;
@@ -108,39 +84,6 @@ begin
     -- output calculations
     process (STATE)
     begin
-        case STATE is
-            when STinit =>
-                ALU_SEL <= "00" -- anything
-                en_r1 <= '0'
-                en_r2 <= '0'
-            when STadd1 =>
-                ALU_SEL <= "00"
-                en_r1 <= '0'
-                en_r2 <= '0'
-            when STadd2 =>
-                ALU_SEL <= "00"
-                en_r1 <= '0'
-                en_r2 <= '0'
-            when STmul1 =>
-                ALU_SEL <= "00"
-                en_r1 <= '0'
-                en_r2 <= '0'
-            when STmul2 =>
-                ALU_SEL <= "00"
-                en_r1 <= '0'
-                en_r2 <= '0'
-            when STor1 =>
-                ALU_SEL <= "00"
-                en_r1 <= '0'
-                en_r2 <= '0'
-            when STor2 =>
-                ALU_SEL <= "00"
-                en_r1 <= '0'
-                en_r2 <= '0'
-            when others => --STsra
-                ALU_SEL <= "00"
-                en_r1 <= '0'
-                en_r2 <= '0'
     end process;
 
 end behavioral;
