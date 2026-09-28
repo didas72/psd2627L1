@@ -22,23 +22,26 @@ begin
     ones_vector <= (others => '1');
 
     -- SUM
-    res_sum <= OPERAND1 + OPERAND2;
-    if OPERAND1(OPERAND1'LEFT) xor OPERAND2(OPERAND2'LEFT) then -- if the operand's signs are different, no overflow can occur
-        sum_ofl <= '0';
-    elsif ALU_RES(ALU_RES'LEFT) xor OPERAND1(OPERAND1'LEFT) then -- if signs are the same but the result's sign is different
-        sum_ofl <= '1'; 
-    else
-        sum_ofl <= '0';   -- signs are the same and the result's sign is also the same
-    end if;
+    res_sum <= std_logic_vector(signed(OPERAND1) + signed(OPERAND2));
+    sum_ofl <= (not (OPERAND1(OPERAND1'LEFT) xor OPERAND2(OPERAND2'LEFT))) and (ALU_RES(ALU_RES'LEFT) xor OPERAND1(OPERAND1'LEFT))
+    --if OPERAND1(OPERAND1'LEFT) xor OPERAND2(OPERAND2'LEFT) then -- if the operand's signs are different, no overflow can occur
+    --    sum_ofl <= '0';
+    --elsif ALU_RES(ALU_RES'LEFT) xor OPERAND1(OPERAND1'LEFT) then -- if signs are the same but the result's sign is different
+    --    sum_ofl <= '1'; 
+    --else
+    --    sum_ofl <= '0';   -- signs are the same and the result's sign is also the same
+    --end if;
 
     -- MUL
-    res_mul <= OPERAND1 * OPERAND2;
-    if OPERAND1 = '0' or OPERAND2 = '0' then
-        mul_ofl = '0';
-    elsif res_mul(N-1) = '0' then -- if sign extension bits are all equal to the result's MSB, there's no overflow
-        mul_ofl <= '0' when res_mul(res_mul'LEFT downto N) = zeros_vector else '1';     -- positive number
-    else
-        mul_ofl <= '0' when res_mul(res_mul'LEFT downto N) = ones_vector else '1';      -- negative number
+    res_mul <= std_logic_vector(signed(OPERAND1) * signed(OPERAND2));
+    mul_ofl <= (not (OPERAND1 = '0' or OPERAND2 = '0')) or (res_mul(N-1)and ((res_mul(res_mul'LEFT downto N) /= zeros_vector) or res_mul(res_mul'LEFT downto N) /= ones_vector))
+    
+    --if OPERAND1 = '0' or OPERAND2 = '0' then
+    --    mul_ofl = '0';
+    --elsif res_mul(N-1) = '0' then -- if sign extension bits are all equal to the result's MSB, there's no overflow
+    --    mul_ofl <= '0' when res_mul(res_mul'LEFT downto N) = zeros_vector else '1';     -- positive number
+    --else
+    --    mul_ofl <= '0' when res_mul(res_mul'LEFT downto N) = ones_vector else '1';      -- negative number
 
     -- OR
     res_or <= OPERAND1 or OPERAND2;
@@ -48,18 +51,21 @@ begin
     res_shift <= sign_bit & OPERAND1(OPERAND1'LEFT - 1 downto 1); -- "OPERAND1'LEFT - 1" = Second MSB
 
     -- Set ALU_RES according to chosen operation
-    case ALU_SEL is
-        when '0' =>
-            ALU_RES <= res_sum;
-            ofl <= sum_ofl;
-        when '1' =>
-            ALU_RES <= res_mul(N-1 downto '0');
-            ofl <= mul_ofl;
-        when '2' =>
-            ALU_RES <= res_or;
-            ofl = '0';
-        when others =>
-            ALU_RES <= res_shift;
-            ofl = '0';
-    
+    process (ALU_SEL)
+    begin
+        case ALU_SEL is
+            when '0' =>
+                ALU_RES <= res_sum;
+                ofl <= sum_ofl;
+            when '1' =>
+                ALU_RES <= res_mul(N-1 downto 0);
+                ofl <= mul_ofl;
+            when '2' =>
+                ALU_RES <= res_or;
+                ofl <= '0';
+            when others =>
+                ALU_RES <= res_shift;
+                ofl <= '0';
+        end case;
+    end process;    
 end archi;
