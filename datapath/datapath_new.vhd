@@ -5,7 +5,7 @@ use IEEE.NUMERIC_STD.ALL;
 entity datapath is 
     port (
     VALUE : in  std_logic_vector (15 downto 0);
-    OPER : in std_logic_vector (1 downto 0);
+    ALU_SEL : in std_logic_vector (1 downto 0);
     en_accum, rst, en_r1, en_r2, display_sel : in  std_logic;
     clk : in  std_logic;
     overflow_flag : out std_logic;
@@ -19,7 +19,7 @@ architecture behavioral of datapath is
     signal ALU_RES : std_logic_vector (15 downto 0);
 
     alu15: alu generic map (N => 15) 
-        port map (OPERAND1 => REG1, OPERAND2 => VALUE, OPER => OPER, ALU_RES => ALU_RES, ofl => overflow_flag);
+        port map (OPERAND1 => REG1, OPERAND2 => VALUE, ALU_SEL => ALU_SEL, ALU_RES => ALU_RES, ofl => overflow_flag);
 
 begin
 
