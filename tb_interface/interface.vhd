@@ -65,6 +65,7 @@ architecture Behavioral of interface is
   signal oper_avail                                  : std_logic;
   -- signal to verify if the OPER value is different from the previous one, if it is different, then the control unit will be informed
   signal OPER_PREVIOUS                               : std_logic_vector(1 downto 0);
+  signal OPER                                        : std_logic_vector(1 downto 0);
 
   component disp7
     port (
@@ -158,7 +159,6 @@ begin
         btn_sel <= '1';
       end if;
       
-      OPER_PREVIOUS <= OPER;
       if OPER_PREVIOUS = OPER then
         oper_avail <= '0';
       else
@@ -170,7 +170,7 @@ begin
       else
         dp_overflow <= '0';
       end if;
-      
+      OPER_PREVIOUS <= OPER;
     end if;
   end process;
 

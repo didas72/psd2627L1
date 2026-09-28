@@ -1,0 +1,59 @@
+
+*** Running vivado
+    with args -log interface.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source interface.tcl
+
+
+****** Vivado v2025.2 (64-bit)
+  **** SW Build 6299465 on Fri Nov 14 12:34:56 MST 2025
+  **** IP Build 6300035 on Fri Nov 14 10:48:45 MST 2025
+  **** SharedData Build 6298862 on Thu Nov 13 04:50:51 MST 2025
+  **** Start of session at: Mon Sep 28 17:07:45 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source interface.tcl -notrace
+Command: synth_design -top interface -part xc7a35tcpg236-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a35t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t'
+INFO: [Device 21-403] Loading part xc7a35tcpg236-1
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 7 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 9188
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:03 . Memory (MB): peak = 2417.980 ; gain = 485.125 ; free physical = 3047 ; free virtual = 16850
+---------------------------------------------------------------------------------
+ERROR: [Synth 8-9493] found '0' definitions of operator "+", cannot determine exact overloaded matching definition for "+" [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:25]
+ERROR: [Synth 8-2716] syntax error near 'if' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:26]
+ERROR: [Synth 8-2716] syntax error near 'xor' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:26]
+ERROR: [Synth 8-2716] syntax error near 'then' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:26]
+ERROR: [Synth 8-2716] syntax error near 'elsif' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:28]
+ERROR: [Synth 8-2716] syntax error near 'xor' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:28]
+ERROR: [Synth 8-2716] syntax error near 'then' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:28]
+ERROR: [Synth 8-2716] syntax error near 'else' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:30]
+ERROR: [Synth 8-2716] syntax error near 'if' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:32]
+ERROR: [Synth 8-9493] found '0' definitions of operator "*", cannot determine exact overloaded matching definition for "*" [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:35]
+ERROR: [Synth 8-2716] syntax error near 'if' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:36]
+ERROR: [Synth 8-2716] syntax error near '=' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:38]
+ERROR: [Synth 8-2716] syntax error near 'else' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:40]
+ERROR: [Synth 8-2716] syntax error near 'case' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:51]
+ERROR: [Synth 8-2716] syntax error near 'when' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:55]
+ERROR: [Synth 8-9288] character ''0'' is not in type 'natural' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:56]
+ERROR: [Synth 8-2716] syntax error near 'when' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:58]
+ERROR: [Synth 8-2716] syntax error near '=' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:60]
+ERROR: [Synth 8-2716] syntax error near '=' [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:63]
+INFO: [Synth 8-11252] unit 'archi' is ignored due to previous errors [/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd:65]
+INFO: [Synth 8-10443] VHDL file '/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd' is ignored due to errors
+ERROR: [Synth 8-12189] Failed to read vhdl '/home/garcia/Desktop/PSD/psd2627L1/datapath/alu.vhd'
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2499.918 ; gain = 567.062 ; free physical = 2964 ; free virtual = 16767
+---------------------------------------------------------------------------------
+RTL Elaboration failed
+INFO: [Common 17-83] Releasing license: Synthesis
+8 Infos, 0 Warnings, 0 Critical Warnings and 21 Errors encountered.
+synth_design failed
+synth_design: Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 2499.926 ; gain = 664.406 ; free physical = 2965 ; free virtual = 16768
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 1704.104; main = 1410.011; forked = 294.094
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 4146.594; main = 2499.922; forked = 1646.672
+ERROR: [Common 17-69] Command failed: Synthesis failed - please see the console or run log file for details
+INFO: [Common 17-206] Exiting Vivado at Mon Sep 28 17:07:53 2026...
