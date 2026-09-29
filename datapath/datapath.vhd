@@ -20,14 +20,29 @@ architecture behavioral of datapath is
 
 
 begin
-    alu15: alu generic map (N => 15)
-        port map (OPERAND1 => REG1, OPERAND2 => VALUE, ALU_SEL => ALU_SEL, ALU_RES => ALU_RES, ofl => overflow_flag);
+    alu15 : entity work.alu
+        generic map (
+            N => 15
+        )
+        port map (
+            OPERAND1 => REG1,
+            OPERAND2 => VALUE,
+            ALU_SEL  => ALU_SEL,
+            ALU_RES  => ALU_RES,
+            ofl      => overflow_flag
+        );
+        
     process (clk)
     begin
         if clk'event and clk = '1' then
             
             if en_r1 = '1' then
-                REG1 <= VALUE;
+                -- MUX top
+                if en_accum = '0' then
+                    REG1 <= VALUE;
+                else
+                    REG1 <= REG2;
+                end if;
             end if; 
 
             if en_r2 = '1' then
@@ -43,7 +58,7 @@ begin
     end process;
 
     -- MUX top
-    REG1 <= VALUE when (en_accum = '0') else REG2;
+    --REG1 <= VALUE when (en_accum = '0') else REG2;
 
     -- MUX bottom
     -- 1 => res | 0 => val

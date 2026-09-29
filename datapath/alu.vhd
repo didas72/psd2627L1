@@ -18,12 +18,12 @@ architecture archi of alu is
     signal res_mul : std_logic_vector(2*N-1 downto 0);
     signal zeros_vector, ones_vector : std_logic_vector(N-1 downto 0);
 begin
-    zeros_vector <= (others => "0");
-    ones_vector <= (others => "1");
+    zeros_vector <= (others => '0');
+    ones_vector <= (others => '1');
 
     -- SUM
     res_sum <= std_logic_vector(signed(OPERAND1) + signed(OPERAND2));
-    sum_ofl <= (not (OPERAND1(OPERAND1'LEFT) xor OPERAND2(OPERAND2'LEFT))) and (ALU_RES(ALU_RES'LEFT) xor OPERAND1(OPERAND1'LEFT));
+    sum_ofl <= (not (OPERAND1(OPERAND1'LEFT) xor OPERAND2(OPERAND2'LEFT))) and (res_sum(res_sum'LEFT) xor OPERAND1(OPERAND1'LEFT));
     --if OPERAND1(OPERAND1'LEFT) xor OPERAND2(OPERAND2'LEFT) then -- if the operand's signs are different, no overflow can occur
     --    sum_ofl <= '0';
     --elsif ALU_RES(ALU_RES'LEFT) xor OPERAND1(OPERAND1'LEFT) then -- if signs are the same but the result's sign is different
@@ -34,8 +34,13 @@ begin
 
     -- MUL
     res_mul <= std_logic_vector(signed(OPERAND1) * signed(OPERAND2));
-    mul_ofl <= (not (OPERAND1 = "0" or OPERAND2 = "0")) or (res_mul(N-1)and ((res_mul(res_mul'LEFT downto N) /= zeros_vector) or res_mul(res_mul'LEFT downto N) /= ones_vector));
-    
+    mul_ofl <= '1' when (res_mul(N-1) = '0' and res_mul(res_mul'LEFT downto N) /= zeros_vector)
+                or
+                (res_mul(N-1) = '1' and res_mul(res_mul'LEFT downto N) /= ones_vector)
+                else '0';
+    --mul_ofl <= (res_mul(N-1) = '0' and res_mul(res_mul'LEFT downto N) /= zeros_vector) or (res_mul(N-1) = '1' and res_mul(res_mul'LEFT downto N) /= ones_vector);
+                -- if sign extension bits are all equal to the result's MSB, there's no overflow
+                
     --if OPERAND1 = '0' or OPERAND2 = '0' then
     --    mul_ofl = '0';
     --elsif res_mul(N-1) = '0' then -- if sign extension bits are all equal to the result's MSB, there's no overflow
@@ -48,7 +53,7 @@ begin
 
     -- SRA
     sign_bit <= OPERAND1(OPERAND1'LEFT); -- using 'LEFT gets the MSB of the operand regardless of its size
-    res_shift <= sign_bit & OPERAND1(OPERAND1'LEFT - 1 downto 1); -- "OPERAND1'LEFT - 1" = Second MSB
+    res_shift <= sign_bit & OPERAND1(OPERAND1'LEFT downto 1); -- Get bits 14-1, shift them right and add the sign bit as MSB
 
     -- Set ALU_RES according to chosen operation
     process (ALU_SEL)
