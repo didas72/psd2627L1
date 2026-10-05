@@ -166,7 +166,7 @@ begin
         btn_sel <= '1';
       end if;
       
-      if OPER_PREVIOUS = OPER then
+      if OPER_PREVIOUS = OPER_AUX then
         oper_avail <= '0';
       else
         oper_avail <= '1';
@@ -177,7 +177,7 @@ begin
       else
         dp_overflow <= '0';
       end if;
-      OPER_PREVIOUS <= OPER;
+      OPER_PREVIOUS <= OPER_AUX;
     end if;
   end process;
 

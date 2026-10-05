@@ -34,6 +34,7 @@ architecture behavior of interface_tb is
   signal dp  : std_logic;
 
   constant clk_period : time := 10 ns;
+  constant btn_press_time : time := 11 ms;
 
 begin
 
@@ -61,30 +62,111 @@ begin
     wait for 100 ns;
 
 
-    sw(15) <= '0';
-    btnL   <= '1';
-    wait for 100 ns;
-    btnL   <= '0';
-    wait for 200 ns;
+    -- SUM
 
-    sw(15) <= '1';
-    wait for 200 ns;
+    -- Initial reset
+    btnC <= '1';
+    wait for btn_press_time;
+    btnC <= '0';
+    wait for btn_press_time;
 
-    btnU <= '1';
-    wait for 100 ns;
-    btnU <= '0';
-    wait for 200 ns;
-
-    sw(15) <= '0';
+    -- first number
+    sw <= "0" & "000000000000001"; 
     wait for 100 ns;
 
+    -- Pressiona BTNL for SUM operantion 
+    btnL <= '1';
+    wait for btn_press_time;
+    btnL <= '0';
+    wait for btn_press_time;
+
+    -- Define second number
+    sw(14 downto 0) <= "000000000000010";
     wait for 100 ns;
+
+    -- Press equals
     btnR <= '1';
-    wait for 100 ns;
+    wait for btn_press_time;
     btnR <= '0';
-
-    wait for 200 ns;
+    wait for btn_press_time;
     
+    -- MUL
+    -- reset
+    btnC <= '1';
+    wait for btn_press_time;
+    btnC <= '0';
+    wait for btn_press_time;
+    
+    -- first number
+    sw <= "0" & "000000000000001"; 
+    wait for 100 ns;
+    
+    -- Pressiona BTNU for MUL operantion 
+    btnU <= '1';
+    wait for btn_press_time;
+    btnU <= '0';
+    wait for btn_press_time;
+    
+    -- Define second number
+    sw(14 downto 0) <= "000000000000100";
+    wait for 100 ns;
+    
+    
+    -- Press equals
+    btnR <= '1';
+    wait for btn_press_time;
+    btnR <= '0';
+    wait for btn_press_time;
+    
+    
+    
+    
+    -- OR
+    -- reset
+    btnC <= '1';
+    wait for btn_press_time;
+    btnC <= '0';
+    wait for btn_press_time;
+    
+    -- first number
+    sw <= "1" & "000000000000011"; 
+    wait for 100 ns;
+    
+    -- Pressiona BTNU for MUL operantion 
+    btnL <= '1';
+    wait for btn_press_time;
+    btnL <= '0';
+    wait for btn_press_time;
+    
+    -- Define second number
+    sw(14 downto 0) <= "000000000000110";
+    wait for 100 ns;
+    
+    
+    -- Press equals
+    btnR <= '1';
+    wait for btn_press_time;
+    btnR <= '0';
+    wait for btn_press_time;
+    
+    
+    
+    -- SHIFT    
+    -- reset
+    btnC <= '1';
+    wait for btn_press_time;
+    btnC <= '0';
+    wait for btn_press_time;
+    
+    -- first number
+    sw <= "1" & "000000000000100"; 
+    wait for 100 ns;
+    
+    -- Pressiona BTNU for MUL operantion 
+    btnU <= '1';
+    wait for btn_press_time;
+    btnU <= '0';
+    wait for btn_press_time;
 
 
     wait;

@@ -1,0 +1,13 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../../datapath/alu.vhd" \
+"../../../../../tb_interface/circuito.vhd" \
+"../../../../../control/lab1.srcs/sources_1/new/control_unit.vhd" \
+"../../../../../datapath/datapath.vhd" \
+"../../../../../tb_interface/debouncer.vhd" \
+"../../../../../tb_interface/disp7.vhd" \
+"../../../../../tb_interface/interface.vhd" \
+"../../../../../tb_interface/interface_tb.vhd" \
+
+# Do not sort compile order
+nosort
