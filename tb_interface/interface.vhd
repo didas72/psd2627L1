@@ -172,7 +172,7 @@ begin
             btn_sel <= '0';
             OPER_AUX   <= sw_reg(15) & "0";
             oper_avail <= '1';
-        elsif (btnUreg = '1' and btnUreg_prev = '0') then   
+        elsif (btnUreg = '1' and btnUreg_prev = '0') then
             --btn_sel <= '1';
             OPER_AUX   <= sw_reg(15) & "1";
             oper_avail <= '1';
