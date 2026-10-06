@@ -63,12 +63,11 @@ architecture Behavioral of interface is
 
   -- signal to inform the control unit that an operation button was pressed
   signal oper_avail                                  : std_logic;
-  -- signal to verify if the OPER value is different from the previous one, if it is different, then the control unit will be informed
-  signal OPER_PREVIOUS                               : std_logic_vector(1 downto 0);
   signal OPER                                        : std_logic_vector(1 downto 0);
   signal digit3_aux                                  : std_logic_vector(3 downto 0);
   signal OPER_AUX                                    : std_logic_vector(1 downto 0);
-  
+  -- signal to detect the press of the button
+  signal btnLreg_prev, btnUreg_prev                  : std_logic;
   
   component disp7
     port (
@@ -148,7 +147,7 @@ begin
 
 
   digit3_aux <= "0" & RESULT(14 downto 12);
-  OPER_AUX   <= sw_reg(15) & btn_sel;
+
 
   process (clk)
   begin
@@ -159,6 +158,9 @@ begin
       btnRreg <= btnDeBnc(1);
       btnDreg <= btnDeBnc(0);
       sw_reg  <= sw;
+      
+      btnLreg_prev <= btnLreg;
+      btnUreg_prev <= btnUreg;
 
       if btnLreg = '1' then
         btn_sel <= '0';
@@ -166,18 +168,24 @@ begin
         btn_sel <= '1';
       end if;
       
-      if OPER_PREVIOUS = OPER_AUX then
-        oper_avail <= '0';
-      else
-        oper_avail <= '1';
-      end if;
+        if (btnLreg = '1' and btnLreg_prev = '0') then
+            btn_sel <= '0';
+            OPER_AUX   <= sw_reg(15) & "0";
+            oper_avail <= '1';
+        elsif (btnUreg = '1' and btnUreg_prev = '0') then   
+            --btn_sel <= '1';
+            OPER_AUX   <= sw_reg(15) & "1";
+            oper_avail <= '1';
+        else 
+            oper_avail <= '0';
+        end if;
 
       if overflow_flag = '1' then
         dp_overflow <= '1';
       else
         dp_overflow <= '0';
       end if;
-      OPER_PREVIOUS <= OPER_AUX;
+
     end if;
   end process;
 
