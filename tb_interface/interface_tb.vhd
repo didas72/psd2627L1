@@ -159,6 +159,41 @@ begin
     wait for btn_press_time;
     
     -- first number
+    sw <= "1" & "000000000000001"; 
+    wait for 100 ns;
+    
+    -- Pressiona BTNU for MUL operantion 
+    btnU <= '1';
+    wait for btn_press_time;
+    btnU <= '0';
+    wait for btn_press_time;
+    
+    
+        -- SHIFT    
+    -- reset
+    btnC <= '1';
+    wait for btn_press_time;
+    btnC <= '0';
+    wait for btn_press_time;
+    
+    -- first number
+    sw <= "1" & "000000000000010"; 
+    wait for 100 ns;
+    
+    -- Pressiona BTNU for MUL operantion 
+    btnU <= '1';
+    wait for btn_press_time;
+    btnU <= '0';
+    wait for btn_press_time;
+    
+        -- SHIFT    
+    -- reset
+    btnC <= '1';
+    wait for btn_press_time;
+    btnC <= '0';
+    wait for btn_press_time;
+    
+    -- first number
     sw <= "1" & "000000000000100"; 
     wait for 100 ns;
     
@@ -167,7 +202,23 @@ begin
     wait for btn_press_time;
     btnU <= '0';
     wait for btn_press_time;
-
+    
+        -- SHIFT    
+    -- reset
+    btnC <= '1';
+    wait for btn_press_time;
+    btnC <= '0';
+    wait for btn_press_time;
+    
+    -- first number
+    sw <= "1" & "000000000000111"; 
+    wait for 100 ns;
+    
+    -- Pressiona BTNU for MUL operantion 
+    btnU <= '1';
+    wait for btn_press_time;
+    btnU <= '0';
+    wait for btn_press_time;
 
     wait;
   end process;

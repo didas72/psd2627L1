@@ -56,7 +56,7 @@ begin
     res_shift <= sign_bit & OPERAND1(OPERAND1'LEFT downto 1); -- Get bits 14-1, shift them right and add the sign bit as MSB
 
     -- Set ALU_RES according to chosen operation
-    process (ALU_SEL)
+    process (ALU_SEL, res_sum, res_mul, res_or, res_shift, sum_ofl, mul_ofl)
     begin
         case ALU_SEL is
             when "00" =>
