@@ -1,8 +1,8 @@
-library IEEE; 
-use IEEE.STD_LOGIC_1164.ALL; 
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
-entity datapath is 
+entity datapath is
     port (
     VALUE : in  std_logic_vector (14 downto 0);
     ALU_SEL : in std_logic_vector (1 downto 0);
@@ -11,7 +11,7 @@ entity datapath is
     overflow_flag : out std_logic;
     RESULT : out std_logic_vector (14 downto 0)
     );
-    
+
 end datapath;
 
 architecture behavioral of datapath is
@@ -31,11 +31,11 @@ begin
             ALU_RES  => ALU_RES,
             ofl      => overflow_flag
         );
-        
+
     process (clk)
     begin
         if clk'event and clk = '1' then
-            
+
             if en_r1 = '1' then
                 -- MUX top
                 if en_accum = '0' then
@@ -43,11 +43,11 @@ begin
                 else
                     REG1 <= REG2;
                 end if;
-            end if; 
+            end if;
 
             if en_r2 = '1' then
                 REG2 <= ALU_RES;
-            end if;    
+            end if;
 
             if rst = '1' then
                 REG2 <= (others => '0');
@@ -62,6 +62,6 @@ begin
 
     -- MUX bottom
     -- 1 => res | 0 => val
-    RESULT <= ALU_RES when (display_sel = '1') else VALUE;
+    RESULT <= REG2 when (display_sel = '1') else VALUE;
 
 end behavioral;

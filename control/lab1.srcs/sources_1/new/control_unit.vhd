@@ -41,7 +41,7 @@ entity control_unit is
         -- Display output selector (passed to Datapath)
         -- Can be:
         --   LOW - Display shows VALUE
-        --   HIGH - Display shows ALU_RES
+        --   HIGH - Display shows REG2
         display_sel : out std_logic
     );
 end control_unit;
