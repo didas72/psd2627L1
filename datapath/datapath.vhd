@@ -57,9 +57,6 @@ begin
         end if;
     end process;
 
-    -- MUX top
-    --REG1 <= VALUE when (en_accum = '0') else REG2;
-
     -- MUX bottom
     -- 1 => res | 0 => val
     RESULT <= REG2 when (display_sel = '1') else VALUE;

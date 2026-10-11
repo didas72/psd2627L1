@@ -6,8 +6,8 @@ entity alu is
     generic (N : integer := 15); -- alu operand width
     port (
         OPERAND1, OPERAND2 : in std_logic_vector(N-1 downto 0);  -- operands
-        ALU_SEL : in std_logic_vector(1 downto 0);                  -- operation select
-        ALU_RES : out std_logic_vector(N-1 downto 0);             -- operation's result
+        ALU_SEL : in std_logic_vector(1 downto 0);               -- operation select
+        ALU_RES : out std_logic_vector(N-1 downto 0);            -- operation's result
         ofl : out std_logic                                      -- overflow flag
     );
 end alu;
@@ -24,13 +24,6 @@ begin
     -- SUM
     res_sum <= std_logic_vector(signed(OPERAND1) + signed(OPERAND2));
     sum_ofl <= (not (OPERAND1(OPERAND1'LEFT) xor OPERAND2(OPERAND2'LEFT))) and (res_sum(res_sum'LEFT) xor OPERAND1(OPERAND1'LEFT));
-    --if OPERAND1(OPERAND1'LEFT) xor OPERAND2(OPERAND2'LEFT) then -- if the operand's signs are different, no overflow can occur
-    --    sum_ofl <= '0';
-    --elsif ALU_RES(ALU_RES'LEFT) xor OPERAND1(OPERAND1'LEFT) then -- if signs are the same but the result's sign is different
-    --    sum_ofl <= '1'; 
-    --else
-    --    sum_ofl <= '0';   -- signs are the same and the result's sign is also the same
-    --end if;
 
     -- MUL
     res_mul <= std_logic_vector(signed(OPERAND1) * signed(OPERAND2));
@@ -38,15 +31,6 @@ begin
                 or
                 (res_mul(N-1) = '1' and res_mul(res_mul'LEFT downto N) /= ones_vector)
                 else '0';
-    --mul_ofl <= (res_mul(N-1) = '0' and res_mul(res_mul'LEFT downto N) /= zeros_vector) or (res_mul(N-1) = '1' and res_mul(res_mul'LEFT downto N) /= ones_vector);
-                -- if sign extension bits are all equal to the result's MSB, there's no overflow
-                
-    --if OPERAND1 = '0' or OPERAND2 = '0' then
-    --    mul_ofl = '0';
-    --elsif res_mul(N-1) = '0' then -- if sign extension bits are all equal to the result's MSB, there's no overflow
-    --    mul_ofl <= '0' when res_mul(res_mul'LEFT downto N) = zeros_vector else '1';     -- positive number
-    --else
-    --    mul_ofl <= '0' when res_mul(res_mul'LEFT downto N) = ones_vector else '1';      -- negative number
 
     -- OR
     res_or <= OPERAND1 or OPERAND2;
