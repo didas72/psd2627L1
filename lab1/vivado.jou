@@ -1,26 +1,32 @@
 #-----------------------------------------------------------
 # Vivado v2025.2 (64-bit)
-# SW Build 6299465 on Fri Nov 14 19:35:11 GMT 2025
+# SW Build 6299465 on Fri Nov 14 12:34:56 MST 2025
 # IP Build 6300035 on Fri Nov 14 10:48:45 MST 2025
 # SharedData Build 6298862 on Thu Nov 13 04:50:51 MST 2025
-# Start of session at: Wed Oct  7 16:21:02 2026
-# Process ID         : 25000
-# Current directory  : C:/Users/rodis/Documents/IST/MEEC 2º ano/S1/PSD/Labs/Lab1/psd2627L1/lab1
-# Command line       : vivado.exe -gui_launcher_event rodinguilauncherevent24820 C:\Users\rodis\Documents\IST\MEEC 2º ano\S1\PSD\Labs\Lab1\psd2627L1\lab1\lab1.xpr
-# Log file           : C:/Users/rodis/Documents/IST/MEEC 2º ano/S1/PSD/Labs/Lab1/psd2627L1/lab1/vivado.log
-# Journal file       : C:/Users/rodis/Documents/IST/MEEC 2º ano/S1/PSD/Labs/Lab1/psd2627L1/lab1\vivado.jou
-# Running On         : rc_yoga7
-# Platform           : Windows Server 2016 or Windows 10
-# Operating System   : 26200
-# Processor Detail   : AMD Ryzen 7 8840HS w/ Radeon 780M Graphics     
-# CPU Frequency      : 3294 MHz
+# Start of session at: Sun Oct 11 22:24:35 2026
+# Process ID         : 74313
+# Current directory  : /home/garcia/Desktop/PSD/psd2627L1
+# Command line       : vivado
+# Log file           : /home/garcia/Desktop/PSD/psd2627L1/vivado.log
+# Journal file       : /home/garcia/Desktop/PSD/psd2627L1/vivado.jou
+# Running On         : unknown644ed78311ad.lan
+# Platform           : Fedora
+# Operating System   : Fedora Linux 44 (KDE Plasma Desktop Edition)
+# Processor Detail   : AMD Ryzen 7 7840HS w/ Radeon 780M Graphics
+# CPU Frequency      : 3744.429 MHz
 # CPU Physical cores : 8
 # CPU Logical cores  : 16
-# Host memory        : 16383 MB
-# Swap memory        : 9663 MB
-# Total Virtual      : 26047 MB
-# Available Virtual  : 8229 MB
+# Host memory        : 15995 MB
+# Swap memory        : 8589 MB
+# Total Virtual      : 24585 MB
+# Available Virtual  : 12434 MB
 #-----------------------------------------------------------
 start_gui
-open_project {C:/Users/rodis/Documents/IST/MEEC 2º ano/S1/PSD/Labs/Lab1/psd2627L1/lab1/lab1.xpr}
+open_project /home/garcia/Desktop/PSD/psd2627L1/lab1/lab1.xpr
 update_compile_order -fileset sources_1
+archive_project /home/garcia/Desktop/PSD/psd2627L1/lab1_G7.xpr.zip -force -exclude_run_results
+close_project
+open_project /home/garcia/Desktop/PSD/psd2627L1/lab1_apagar/lab1/lab1.xpr
+update_compile_order -fileset sources_1
+launch_runs impl_1 -to_step write_bitstream -jobs 16
+wait_on_run impl_1
