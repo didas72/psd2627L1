@@ -7,8 +7,8 @@ entity datapath is
     en_accum, reset, en_r1, en_r2, reset_accum : in  std_logic;
     clk : in  std_logic;
     input_select : in std_logic;
-    IN1, IN2, IN3, IN4, IN5, IN6, IN7, IN8 : in std_logic_vector (7 downto 0); --! Maybe trocar o nome destas variáveis
-    C : out std_logic_vector (31 downto 0); --? Vai ser mesmo este o tamanho?
+    A0, A2, B0, B2, A1, A3, B1, B3 : in std_logic_vector (7 downto 0);
+    C : out std_logic_vector (31 downto 0) --? Vai ser mesmo este o tamanho?
     );
 
 end datapath;
@@ -20,10 +20,10 @@ architecture behavioral of datapath is
 begin
 
     -- multiplexers that control the multipliers' inputs
-    MUL1_IN1 <= IN1 when (input_select = '1') else IN2;
-    MUL1_IN2 <= IN3 when (input_select = '1') else IN4;
-    MUL2_IN1 <= IN5 when (input_select = '1') else IN6;
-    MUL2_IN2 <= IN7 when (input_select = '1') else IN8;
+    MUL1_IN1 <= A0 when (input_select = '1') else A2;
+    MUL1_IN2 <= B0 when (input_select = '1') else B2;
+    MUL2_IN1 <= A1 when (input_select = '1') else A3;
+    MUL2_IN2 <= B1 when (input_select = '1') else B3;
 
     --? Make multipliers 1 and 2 into an entity and just change ports? Also, check overflow?
     -- multiplier 1
