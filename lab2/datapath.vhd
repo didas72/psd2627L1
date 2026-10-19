@@ -4,7 +4,7 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity datapath is
     port (
-    en_accum, reset, en_r1, en_r2 : in  std_logic;
+    en_accum, reset, en_r1, en_r2, reset_accum : in  std_logic;
     clk : in  std_logic;
     input_select : in std_logic;
     IN1, IN2, IN3, IN4, IN5, IN6, IN7, IN8 : in std_logic_vector (7 downto 0); --! Maybe trocar o nome destas variáveis
@@ -60,6 +60,10 @@ begin
             if reset = '1' then
                 REG1 <= (others => '0');
                 REG2 <= (others => '0');
+                REG_ACCUM <= (others => '0');
+            end if;
+
+            if reset_accum = '1' then
                 REG_ACCUM <= (others => '0');
             end if;
 
