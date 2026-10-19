@@ -1,4 +1,34 @@
-**.cache/
+
 *.wdb
+
+
+
+# Todas as pastas geradas pelo Vivado (Cache, fontes, simulação e compilação)
+*.cache/
+*.gen/
+*.hw/
+*.ip_user_files/
+*.runs/
 *.sim/
+*.srcs/
 .Xil/
+
+# Ficheiros de log e diário (journal) do Vivado
+*.log
+*.jou
+*.str
+vivado*.log
+vivado*.jou
+vivado*.str
+hd_visual/
+
+# Ficheiros temporários de compilação/bitstream
+*.bit
+*.bin
+*.sysdef
+*.dcp
+
+# Pastas temporárias do Vitis / Workspace
+.analytics/
+*.workspace/
+~               
