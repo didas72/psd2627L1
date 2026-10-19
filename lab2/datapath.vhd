@@ -14,8 +14,11 @@ entity datapath is
 end datapath;
 
 architecture behavioral of datapath is
-    signal REG1, REG2, REG_ACCUM : std_logic_vector (x downto 0); --! Definir tamanho dos registos
+    signal REG1, REG2 : std_logic_vector (15 downto 0); -- 16 bits (multiplication of two 8 bit numbers)
+    signal REG_ACCUM : std_logic_vector (21 downto 0) -- 22 bits
     signal MUL1_IN1, MUL1_IN2, MUL2_IN1, MUL2_IN2 : std_logic_vector (7 downto 0);
+    signal MUL1_OUT, MUL2_OUT : std_logic_vector (15 downto 0); -- 16 bits (multiplication of two 8 bit numbers)
+    signal ADD_OUT : std_logic_vector (21 downto 0); -- 22 bits
 
 begin
 
@@ -25,21 +28,18 @@ begin
     MUL2_IN1 <= A1 when (input_select = '1') else A3;
     MUL2_IN2 <= B1 when (input_select = '1') else B3;
 
-    --? Make multipliers 1 and 2 into an entity and just change ports? Also, check overflow?
+    --? Check overflow?
     -- multiplier 1
-    MUL1_OUT <= signed(MUL1_IN1) * signed(MUL1_IN2);    --! Talvez tenha de converter isto para std_logic_vector ou não uso o signed()?
+    MUL1_OUT <= std_logic_vector(signed(MUL1_IN1) * signed(MUL1_IN2));    
 
     -- multiplier 2
-    MUL2_OUT <= signed(MUL2_IN1) * signed(MUL2_IN2);    --! Talvez tenha de converter isto para std_logic_vector ou não uso o signed()?
+    MUL2_OUT <= std_logic_vector(signed(MUL2_IN1) * signed(MUL2_IN2));    
 
     -- adder 1
-    ADD1_OUT <= signed(REG1) + signed(REG2);  --! Talvez tenha de converter isto para std_logic_vector ou não uso o signed()?
-
-    -- adder 2
-    ADD2_OUT <= signed(REG_ACCUM) + signed(ADD1_OUT);  --! Talvez tenha de converter isto para std_logic_vector ou não uso o signed()?
+    ADD_OUT <= std_logic_vector(resize(signed(REG1), 22) + resize(signed(REG2), 22) + signed(REG_ACCUM));
 
     -- activation function
-    C <= (others => '0') when (REG_ACCUM(REG_ACCUM'LEFT) = '1') else REG_ACCUM;    --? Verificar se é esta a condição desejada
+    C <= (others => '0') when (REG_ACCUM(REG_ACCUM'LEFT) = '1') else REG_ACCUM;
 
     process (clk)
     begin
