@@ -15,7 +15,7 @@ end datapath;
 
 architecture behavioral of datapath is
     signal REG1, REG2 : std_logic_vector (15 downto 0); -- 16 bits (multiplication of two 8 bit numbers)
-    signal REG_ACCUM : std_logic_vector (21 downto 0) -- 22 bits
+    signal REG_ACCUM : std_logic_vector (21 downto 0); -- 22 bits
     signal MUL1_IN1, MUL1_IN2, MUL2_IN1, MUL2_IN2 : std_logic_vector (7 downto 0);
     signal MUL1_OUT, MUL2_OUT : std_logic_vector (15 downto 0); -- 16 bits (multiplication of two 8 bit numbers)
     signal ADD_OUT : std_logic_vector (21 downto 0); -- 22 bits
@@ -54,7 +54,7 @@ begin
             end if;
 
             if en_accum = '1' then  -- store in REG_ACCUM
-                REG_ACCUM <= ADD2_OUT;
+                REG_ACCUM <= ADD_OUT;
             end if;
 
             if reset = '1' then
