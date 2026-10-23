@@ -4,7 +4,7 @@
 <!-- Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.                   -->
 <!-- Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.   -->
 
-<Project Product="Vivado" Version="7" Minor="71" Path="/home/garcia/Desktop/PSD/psd2627L1/lab2/lab2/lab2.xpr">
+<Project Product="Vivado" Version="7" Minor="71" Path="/home/didas/src/fpga/psd2627L1/lab2/lab2/lab2.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
     <Option Name="Id" Val="fb8ea73836404f658a7003f6d74a61a7"/>
@@ -114,6 +114,13 @@
         </FileInfo>
       </File>
       <File Path="$PPRDIR/../mems0/WMemA0.vhd">
+        <FileInfo>
+          <Attr Name="AutoDisabled" Val="1"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../control_unit.vhd">
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
