@@ -39,7 +39,7 @@ begin
     ADD_OUT <= std_logic_vector(resize(signed(REG1), 22) + resize(signed(REG2), 22) + signed(REG_ACCUM));
 
     -- activation function
-    C <= (others => '0') when (REG_ACCUM(REG_ACCUM'LEFT) = '1') else REG_ACCUM;
+    C <= (others => '0') when (REG_ACCUM(REG_ACCUM'LEFT) = '1') else "0000000000" & REG_ACCUM;
 
     process (clk)
     begin
