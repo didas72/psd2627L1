@@ -88,6 +88,7 @@ begin
                 reg_input_addr <= (others => '0');
                 reg_weight_addr <= (others => '0');
                 reg_output_addr <= (others => '0');
+                 
             else
                 state <= next_state;
                 case state is
@@ -97,20 +98,21 @@ begin
                     when s_l1_0 =>
                         reg_input_addr <= (others => '0');
                         reg_output_addr <= reg_output_addr + 1;
+                        --reg_weight_addr <= reg_weight_addr + 1;
                     when others => null;
                 end case;
             end if;
         end if;
     end process;
 
-    -- Next state logic
+    -- Next state logic 
     process (state, reg_input_addr, reg_output_addr)
     begin
         case state is
-            when s_l2_0 =>                    next_state <= s_l2_1;
-            when s_l2_1 =>                    next_state <= s_l2_2;
+            when s_l2_0 =>                    next_state <= s_l2_1; -- 0 2 4 6 8 10 12 14
+            when s_l2_1 =>                    next_state <= s_l2_2; -- 1 3 5 7 9 11 13 15
             when s_l2_2 =>
-                if reg_input_addr /= 15 then   next_state <= s_l2_0;
+                if reg_input_addr /= 0 then   next_state <= s_l2_0;
                 else                          next_state <= s_l1_0; end if;
             when s_l1_0 =>
                 if reg_output_addr /= 15 then next_state <= s_l2_0;
@@ -120,7 +122,7 @@ begin
     end process;
 
     -- Control signals
-    process (state)
+    process (state, rst)
     begin
         -- Default state is nop
         reset_accum <= '0';
@@ -129,32 +131,37 @@ begin
         en_r1 <= '0';
         en_r2 <= '0';
         we <= '0';
-
-        case state is
-            when s_l2_0 =>
-                -- p0 = A0 * B0 || p1 = A1 * B1
-                input_select <= '0';
-                en_r1 <= '1';
-                en_r2 <= '1';
-            when s_l2_1 =>
-                -- acc = acc + p0 + p1
-                en_accum <= '1';
-                -- p0 = A2 * B2 || p1 = A3 * B3
-                input_select <= '1';
-                en_r1 <= '1';
-                en_r2 <= '1';
-            when s_l2_2 =>
-                -- acc = acc + p0 + p1
-                en_accum <= '1';
-                -- (done in state machine) if (r_w != 16) goto l2 (l2_0)
-            when s_l1_0 =>
-                -- C = acc
-                we <= '1';
-                -- acc = 0
-                reset_accum <= '1';
-                -- (done in state machine) if (r_o != 16-1) goto l1 (l2_0)
-            when s_done => null;
-        end case;
+        
+        if rst = '1' then
+            reset_accum <= '1';
+        
+        else
+            case state is
+                when s_l2_0 =>
+                    -- p0 = A0 * B0 || p1 = A1 * B1
+                    input_select <= '0';
+                    en_r1 <= '1';
+                    en_r2 <= '1';
+                when s_l2_1 =>
+                    -- acc = acc + p0 + p1
+                    en_accum <= '1';
+                    -- p0 = A2 * B2 || p1 = A3 * B3
+                    input_select <= '1';
+                    en_r1 <= '1';
+                    en_r2 <= '1';
+                when s_l2_2 =>
+                    -- acc = acc + p0 + p1
+                    en_accum <= '1';
+                    -- (done in state machine) if (r_w != 16) goto l2 (l2_0)
+                when s_l1_0 =>
+                    -- C = acc
+                    we <= '1';
+                    -- acc = 0
+                    reset_accum <= '1';
+                    -- (done i  n state machine) if (r_o != 16-1) goto l1 (l2_0)
+                when s_done => null;
+            end case;
+        end if;
     end process;
 
 end behavioral;
