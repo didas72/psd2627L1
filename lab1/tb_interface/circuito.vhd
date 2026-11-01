@@ -3,11 +3,12 @@ use IEEE.STD_LOGIC_1164.all;
 
 entity circuito is
   port (
-    clk           : in  std_logic;
-    rst           : in  std_logic;
-    done          : out std_logic;
-    we            : out std_logic;
-    DataOut       : out std_logic_vector(31 downto 0) 
+    clk        : in  std_logic;
+    rst        : in  std_logic;
+    done       : out std_logic;
+    we         : out std_logic;
+    addr_omemc : out std_logic_vector(9 downto 0);
+    DataOut    : out std_logic_vector(31 downto 0) 
   );
 end circuito;
 
@@ -20,7 +21,7 @@ architecture Behavioral of circuito is
   signal output_addr                 : std_logic_vector(3 downto 0); 
   signal input_addr                  : std_logic_vector(3 downto 0);
   signal aux_input_addr              : std_logic_vector(9 downto 0);
-  signal aux_output_addr             : std_logic_vector(9 downto 0);
+  signal aux_output_addr              : std_logic_vector(9 downto 0);
   signal aux_weight_addr             : std_logic_vector(9 downto 0);
   signal en_accum, reset_accum       : std_logic;
   signal en_r1, en_r2                : std_logic;
@@ -172,5 +173,6 @@ begin
     aux_input_addr   <= "000000" & input_addr;
     aux_output_addr  <= "000000" & output_addr;
     aux_weight_addr  <= "00" & weight_addr;
+    addr_omemc       <= aux_output_addr; 
     
 end Behavioral;
