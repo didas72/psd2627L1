@@ -88,7 +88,7 @@ begin
                 reg_input_addr <= (others => '0');
                 reg_weight_addr <= (others => '0');
                 reg_output_addr <= (others => '0');
-                 
+
             else
                 state <= next_state;
                 case state is
@@ -98,19 +98,18 @@ begin
                     when s_l1_0 =>
                         reg_input_addr <= (others => '0');
                         reg_output_addr <= reg_output_addr + 1;
-                        --reg_weight_addr <= reg_weight_addr + 1;
                     when others => null;
                 end case;
             end if;
         end if;
     end process;
 
-    -- Next state logic 
+    -- Next state logic
     process (state, reg_input_addr, reg_output_addr)
     begin
         case state is
-            when s_l2_0 =>                    next_state <= s_l2_1; -- 0 2 4 6 8 10 12 14
-            when s_l2_1 =>                    next_state <= s_l2_2; -- 1 3 5 7 9 11 13 15
+            when s_l2_0 =>                    next_state <= s_l2_1;
+            when s_l2_1 =>                    next_state <= s_l2_2;
             when s_l2_2 =>
                 if reg_input_addr /= 0 then   next_state <= s_l2_0;
                 else                          next_state <= s_l1_0; end if;
@@ -131,10 +130,10 @@ begin
         en_r1 <= '0';
         en_r2 <= '0';
         we <= '0';
-        
+
         if rst = '1' then
             reset_accum <= '1';
-        
+
         else
             case state is
                 when s_l2_0 =>
