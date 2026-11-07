@@ -115,7 +115,7 @@ begin
                         reg_input_addr  <= (others => '0');
                         reg_output_addr <= reg_output_addr + 1;
 
-                        if (reg_output_addr + 1) /= 16 then
+                        if (reg_output_addr + 1) /= 0 then
                             state <= s_l2_0_addr;
                         else
                             state <= s_done;
