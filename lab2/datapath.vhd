@@ -28,14 +28,13 @@ begin
     MUL2_IN1 <= A1 when (input_select = '1') else A3;
     MUL2_IN2 <= B1 when (input_select = '1') else B3;
 
-    --? Check overflow?
     -- multiplier 1
     MUL1_OUT <= std_logic_vector(signed(MUL1_IN1) * signed(MUL1_IN2));    
 
     -- multiplier 2
     MUL2_OUT <= std_logic_vector(signed(MUL2_IN1) * signed(MUL2_IN2));    
 
-    -- adder 1
+    -- adder 
     ADD_OUT <= std_logic_vector(resize(signed(REG1), 22) + resize(signed(REG2), 22) + signed(REG_ACCUM));
 
     -- activation function
