@@ -21,14 +21,14 @@ end control_unit;
 
 architecture behavioral of control_unit is
 
-    -- Estados com etapas dedicadas para dar tempo a BRAM responder
+    -- States with dedicated stages to give the BRAM time to respond
     type fsm_state is (
-        s_l2_0_addr,  -- Apresenta endereco A0/B0 e A2/B2
-        s_l2_0_latch, -- BRAM respondeu -> Guarda em REG1 e REG2
-        s_l2_1_addr,  -- Apresenta endereco A1/B1 e A3/B3 + Acumula par 0
-        s_l2_1_latch, -- BRAM respondeu -> Guarda em REG1 e REG2
-        s_l2_2_accum, -- Acumula par 1 e incrementa contadores
-        s_l1_0,       -- Escreve C e faz reset ao acumulador
+        s_l2_0_addr,  -- Present address for A0/B0 and A2/B2
+        s_l2_0_latch, -- BRAM responded -> Store in REG1 and REG2
+        s_l2_1_addr,  -- Present address for A1/B1 and A3/B3 + Accumulate pair 0
+        s_l2_1_latch, -- BRAM responded -> Store in REG1 and REG2
+        s_l2_2_accum, -- Accumulate pair 1 and increment counters
+        s_l1_0,       -- Write C and reset accumulator
         s_done
     );
 
@@ -61,7 +61,7 @@ begin
                 input_select <= '0';
                 we           <= '0';
             else
-                -- Atribuicoes padrao a cada ciclo
+                -- Default assignments on each clock cycle
                 en_accum    <= '0';
                 en_r1       <= '0';
                 en_r2       <= '0';
@@ -70,35 +70,35 @@ begin
 
                 case state is
 
-                    -- --- PAR 0 (A0*B0 e A2*B2) ---
+                    -- --- PAIR 0 (A0*B0 and A2*B2) ---
                     when s_l2_0_addr =>
                         input_select <= '0';
                         state        <= s_l2_0_latch;
 
                     when s_l2_0_latch =>
-                        -- A BRAM ja disponibilizou os dados novos, agora podemos guardar
+                        -- BRAM has provided the new data, now we can store it
                         en_r1 <= '1';
                         en_r2 <= '1';
                         state <= s_l2_1_addr;
 
-                    -- --- PAR 1 (A1*B1 e A3*B3) ---
+                    -- --- PAIR 1 (A1*B1 and A3*B3) ---
                     when s_l2_1_addr =>
-                        -- Acumula o par 0 que acabou de ser multiplicado
+                        -- Accumulate pair 0 that was just multiplied
                         en_accum     <= '1';
                         input_select <= '1';
                         state        <= s_l2_1_latch;
 
                     when s_l2_1_latch =>
-                        -- A BRAM ja disponibilizou os dados novos do par 1
+                        -- BRAM has provided the new data for pair 1
                         en_r1 <= '1';
                         en_r2 <= '1';
                         state <= s_l2_2_accum;
 
                     when s_l2_2_accum =>
-                        -- Acumula o par 1
+                        -- Accumulate pair 1
                         en_accum <= '1';
                         
-                        -- Incrementa enderecos para a proxima iteracao do k
+                        -- Increment addresses for the next iteration of k
                         reg_input_addr  <= reg_input_addr + 1;
                         reg_weight_addr <= reg_weight_addr + 1;
 
@@ -108,7 +108,7 @@ begin
                             state <= s_l1_0;
                         end if;
 
-                    -- --- ESCRITA DA SAIDA C ---
+                    -- --- WRITE OUTPUT C ---
                     when s_l1_0 =>
                         we              <= '1';
                         reset_accum     <= '1';

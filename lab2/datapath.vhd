@@ -8,7 +8,7 @@ entity datapath is
     clk : in  std_logic;
     input_select : in std_logic;
     A0, A2, B0, B2, A1, A3, B1, B3 : in std_logic_vector (7 downto 0):= (others => '0');
-    C : out std_logic_vector (31 downto 0) --? Vai ser mesmo este o tamanho?
+    C : out std_logic_vector (31 downto 0) 
     );
 
 end datapath;
