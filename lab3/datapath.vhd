@@ -1,13 +1,14 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
+use work.multi_number.all;
 
 entity datapath is
-    generic (
-        INPUT_WIDTH : integer := 4;
-        WEIGHT0_WIDTH : integer := 8;
-        MULT_COUNT : integer := 112
-    );
+--    generic (
+--        INPUT_WIDTH : integer := 4;
+--        WEIGHT0_WIDTH : integer := 8;
+--        MULT_COUNT : integer := 112
+--    );
     port (
         -- Global controls
         clk : in std_logic;
