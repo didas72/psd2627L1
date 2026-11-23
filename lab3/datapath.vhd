@@ -20,7 +20,6 @@ entity datapath is
         en_w0_reg : in std_logic; -- increment weight0 address if set to 1
         en_w1_reg : in std_logic; -- increment weight1 address if set to 1
         -- Data registers
-        en_reg_la0_st0 : in std_logic; -- save the operation result if set to 1
         en_reg_la0_st1 : in std_logic; -- save the operation result if set to 1
         en_reg_la0_st2 : in std_logic; -- save the operation result if set to 1
         en_reg_la0_st3 : in std_logic; -- save the operation result if set to 1
@@ -28,6 +27,8 @@ entity datapath is
         en_reg_la0_st5 : in std_logic; -- save the operation result if set to 1
         en_reg_la0_st6 : in std_logic; -- save the operation result if set to 1
         en_reg_la0_st7 : in std_logic; -- save the operation result if set to 1
+        en_reg_la0_st8 : in std_logic; -- save the operation result if set to 1
+        en_reg_la0_acc : in std_logic; -- add en_reg_la0_st8 to the accumulator if set to 1
 
         -- === Data input buses ===
         input_bus : in std_logic_vector((INPUT_WIDTH*MULT_COUNT)-1 downto 0);
@@ -63,6 +64,7 @@ architecture archi of datapath is
     signal reg_la0_st6 : STAGE4_T(4-1 downto 0); -- Rounded up
     signal reg_la0_st7 : STAGE4_T(2-1 downto 0);
     signal reg_la0_st8 : std_logic_vector(20-1 downto 0);
+    signal reg_la0_acc : std_logic_vector(23-1 downto 0);
     -- Address registers
     signal reg_i_addr : signed(2 downto 0);
     signal reg_w0_addr : signed(2 downto 0);
@@ -97,94 +99,101 @@ begin
     process (clk)
     begin
         if rising_edge(clk) then
-            -- === Layer 0 ===
-            if en_reg_la0_st0 = '1' then
+            -- === Layer 0 tree ===
+            if en_reg_la0_st1 = '1' then
                 -- Layer 0, stage 1, 112 multipliers
-                gen_mul: for i in 0 to 112-1 generate
+                gen_la1: for i in 0 to 112-1 loop -- This is still parallel
                     reg_la0_st1(i) <=
                         std_logic_vector(
                             signed(input_bus((i+1)*INPUT_WIDTH-1 downto i*INPUT_WIDTH)) *
                             signed(weight0_bus((i+1)*WEIGHT0_WIDTH-1 downto i*WEIGHT0_WIDTH))
                         );
-                end generate;
+                end loop;
             end if;
 
-            if en_reg_la0_st1 = '1' then
+            if en_reg_la0_st2 = '1' then
                 -- Layer 0, stage 2, 56 adders
-                gen_mul: for i in 0 to 56-1 generate
+                gen_la2: for i in 0 to 56-1 loop -- This is still parallel
                     reg_la0_st2(i) <=
                         std_logic_vector(
                             signed(reg_la0_st1(i*2)) +
                             signed(reg_la0_st1(i*2+1))
                         );
-                end generate;
+                end loop;
             end if;
 
-            if en_reg_la0_st2 = '1' then
+            if en_reg_la0_st3 = '1' then
                 -- Layer 0, stage 3, 28 adders
-                gen_mul: for i in 0 to 28-1 generate
+                gen_la3: for i in 0 to 28-1 loop -- This is still parallel
                     reg_la0_st3(i) <=
                         std_logic_vector(
                             signed(reg_la0_st2(i*2)) +
                             signed(reg_la0_st2(i*2+1))
                         );
-                end generate;
+                end loop;
             end if;
 
-            if en_reg_la0_st3 = '1' then
+            if en_reg_la0_st4 = '1' then
                 -- Layer 0, stage 4, 14 adders
-                gen_mul: for i in 0 to 14-1 generate
+                gen_la4: for i in 0 to 14-1 loop -- This is still parallel
                     reg_la0_st4(i) <=
                         std_logic_vector(
                             signed(reg_la0_st3(i*2)) +
                             signed(reg_la0_st3(i*2+1))
                         );
-                end generate;
+                end loop;
             end if;
 
-            if en_reg_la0_st4 = '1' then
+            if en_reg_la0_st5 = '1' then
                 -- Layer 0, stage 5, 7 adders
-                gen_mul: for i in 0 to 7-1 generate
+                gen_la5: for i in 0 to 7-1 loop -- This is still parallel
                     reg_la0_st5(i) <=
                         std_logic_vector(
                             signed(reg_la0_st4(i*2)) +
                             signed(reg_la0_st4(i*2+1))
                         );
-                end generate;
+                end loop;
             end if;
 
-            if en_reg_la0_st5 = '1' then
+            if en_reg_la0_st6 = '1' then
                 -- Layer 0, stage 6, 4 adders
                 -- 3 done in generate, the last one is different
-                gen_mul: for i in 0 to 3-1 generate
+                gen_la6: for i in 0 to 3-1 loop -- This is still parallel
                     reg_la0_st6(i) <=
                         std_logic_vector(
                             signed(reg_la0_st5(i*2)) +
                             signed(reg_la0_st5(i*2+1))
                         );
-                end generate;
+                end loop;
                 -- the different one
                 reg_la0_st6(i) <= reg_la0_st5(7);
             end if;
 
-            if en_reg_la0_st6 = '1' then
+            if en_reg_la0_st7 = '1' then
                 -- Layer 0, stage 7, 2 adders
-                gen_mul: for i in 0 to 2-1 generate
+                gen_la7: for i in 0 to 2-1 loop -- This is still parallel
                     reg_la0_st7(i) <=
                         std_logic_vector(
                             signed(reg_la0_st6(i*2)) +
                             signed(reg_la0_st6(i*2+1))
                         );
-                end generate;
+                end loop;
             end if;
 
-            if en_reg_la0_st7 = '1' then
+            if en_reg_la0_st8 = '1' then
                 -- Layer 0, stage 8, 1 adder
                 reg_la0_st8(i) <= std_logic_vector(
                         signed(reg_la0_st7(0)) +
                         signed(reg_la0_st7(1))
                     );
             end if;
+
+            -- === Layer 0 accumulator ===
+            if en_reg_la0_acc = '1' then
+                reg_la0_acc <= signed(reg_la0_acc) + signed(reg_la0_st8);
+            end if;
+
+            -- === Layer 1 ===
         end if;
     end process;
 end;
