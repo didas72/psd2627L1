@@ -96,92 +96,95 @@ begin
 
     process (clk)
     begin
-        if en_reg_la0_st0 = '1' then
-            -- Layer 0, stage 1, 112 multipliers
-            gen_mul: for i in 0 to 112-1 generate
-                reg_la0_st1(i) <=
-                    std_logic_vector(
-                        signed(input_bus((i+1)*INPUT_WIDTH-1 downto i*INPUT_WIDTH)) *
-                        signed(weight0_bus((i+1)*WEIGHT0_WIDTH-1 downto i*WEIGHT0_WIDTH))
-                    );
-            end generate;
-        end if;
+        if rising_edge(clk) then
+            -- === Layer 0 ===
+            if en_reg_la0_st0 = '1' then
+                -- Layer 0, stage 1, 112 multipliers
+                gen_mul: for i in 0 to 112-1 generate
+                    reg_la0_st1(i) <=
+                        std_logic_vector(
+                            signed(input_bus((i+1)*INPUT_WIDTH-1 downto i*INPUT_WIDTH)) *
+                            signed(weight0_bus((i+1)*WEIGHT0_WIDTH-1 downto i*WEIGHT0_WIDTH))
+                        );
+                end generate;
+            end if;
 
-        if en_reg_la0_st1 = '1' then
-            -- Layer 0, stage 2, 56 adders
-            gen_mul: for i in 0 to 56-1 generate
-                reg_la0_st2(i) <=
-                    std_logic_vector(
-                        signed(reg_la0_st1(i*2)) +
-                        signed(reg_la0_st1(i*2+1))
-                    );
-            end generate;
-        end if;
+            if en_reg_la0_st1 = '1' then
+                -- Layer 0, stage 2, 56 adders
+                gen_mul: for i in 0 to 56-1 generate
+                    reg_la0_st2(i) <=
+                        std_logic_vector(
+                            signed(reg_la0_st1(i*2)) +
+                            signed(reg_la0_st1(i*2+1))
+                        );
+                end generate;
+            end if;
 
-        if en_reg_la0_st2 = '1' then
-            -- Layer 0, stage 3, 28 adders
-            gen_mul: for i in 0 to 28-1 generate
-                reg_la0_st3(i) <=
-                    std_logic_vector(
-                        signed(reg_la0_st2(i*2)) +
-                        signed(reg_la0_st2(i*2+1))
-                    );
-            end generate;
-        end if;
+            if en_reg_la0_st2 = '1' then
+                -- Layer 0, stage 3, 28 adders
+                gen_mul: for i in 0 to 28-1 generate
+                    reg_la0_st3(i) <=
+                        std_logic_vector(
+                            signed(reg_la0_st2(i*2)) +
+                            signed(reg_la0_st2(i*2+1))
+                        );
+                end generate;
+            end if;
 
-        if en_reg_la0_st3 = '1' then
-            -- Layer 0, stage 4, 14 adders
-            gen_mul: for i in 0 to 14-1 generate
-                reg_la0_st4(i) <=
-                    std_logic_vector(
-                        signed(reg_la0_st3(i*2)) +
-                        signed(reg_la0_st3(i*2+1))
-                    );
-            end generate;
-        end if;
+            if en_reg_la0_st3 = '1' then
+                -- Layer 0, stage 4, 14 adders
+                gen_mul: for i in 0 to 14-1 generate
+                    reg_la0_st4(i) <=
+                        std_logic_vector(
+                            signed(reg_la0_st3(i*2)) +
+                            signed(reg_la0_st3(i*2+1))
+                        );
+                end generate;
+            end if;
 
-        if en_reg_la0_st4 = '1' then
-            -- Layer 0, stage 5, 7 adders
-            gen_mul: for i in 0 to 7-1 generate
-                reg_la0_st5(i) <=
-                    std_logic_vector(
-                        signed(reg_la0_st4(i*2)) +
-                        signed(reg_la0_st4(i*2+1))
-                    );
-            end generate;
-        end if;
+            if en_reg_la0_st4 = '1' then
+                -- Layer 0, stage 5, 7 adders
+                gen_mul: for i in 0 to 7-1 generate
+                    reg_la0_st5(i) <=
+                        std_logic_vector(
+                            signed(reg_la0_st4(i*2)) +
+                            signed(reg_la0_st4(i*2+1))
+                        );
+                end generate;
+            end if;
 
-        if en_reg_la0_st5 = '1' then
-            -- Layer 0, stage 6, 4 adders
-            -- 3 done in generate, the last one is different
-            gen_mul: for i in 0 to 3-1 generate
-                reg_la0_st6(i) <=
-                    std_logic_vector(
-                        signed(reg_la0_st5(i*2)) +
-                        signed(reg_la0_st5(i*2+1))
-                    );
-            end generate;
-            -- the different one
-            reg_la0_st6(i) <= reg_la0_st5(7);
-        end if;
+            if en_reg_la0_st5 = '1' then
+                -- Layer 0, stage 6, 4 adders
+                -- 3 done in generate, the last one is different
+                gen_mul: for i in 0 to 3-1 generate
+                    reg_la0_st6(i) <=
+                        std_logic_vector(
+                            signed(reg_la0_st5(i*2)) +
+                            signed(reg_la0_st5(i*2+1))
+                        );
+                end generate;
+                -- the different one
+                reg_la0_st6(i) <= reg_la0_st5(7);
+            end if;
 
-        if en_reg_la0_st6 = '1' then
-            -- Layer 0, stage 7, 2 adders
-            gen_mul: for i in 0 to 2-1 generate
-                reg_la0_st7(i) <=
-                    std_logic_vector(
-                        signed(reg_la0_st6(i*2)) +
-                        signed(reg_la0_st6(i*2+1))
-                    );
-            end generate;
-        end if;
+            if en_reg_la0_st6 = '1' then
+                -- Layer 0, stage 7, 2 adders
+                gen_mul: for i in 0 to 2-1 generate
+                    reg_la0_st7(i) <=
+                        std_logic_vector(
+                            signed(reg_la0_st6(i*2)) +
+                            signed(reg_la0_st6(i*2+1))
+                        );
+                end generate;
+            end if;
 
-        if en_reg_la0_st7 = '1' then
-            -- Layer 0, stage 8, 1 adder
-            reg_la0_st8(i) <= std_logic_vector(
-                    signed(reg_la0_st7(0)) +
-                    signed(reg_la0_st7(1))
-                );
+            if en_reg_la0_st7 = '1' then
+                -- Layer 0, stage 8, 1 adder
+                reg_la0_st8(i) <= std_logic_vector(
+                        signed(reg_la0_st7(0)) +
+                        signed(reg_la0_st7(1))
+                    );
+            end if;
         end if;
     end process;
 end;
