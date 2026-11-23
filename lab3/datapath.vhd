@@ -166,7 +166,7 @@ begin
                         );
                 end loop;
                 -- the different one
-                reg_la0_st6(i) <= reg_la0_st5(7);
+                reg_la0_st6(3) <= reg_la0_st5(7);
             end if;
 
             if en_reg_la0_st7 = '1' then
@@ -182,7 +182,7 @@ begin
 
             if en_reg_la0_st8 = '1' then
                 -- Layer 0, stage 8, 1 adder
-                reg_la0_st8(i) <= std_logic_vector(
+                reg_la0_st8 <= std_logic_vector(
                         signed(reg_la0_st7(0)) +
                         signed(reg_la0_st7(1))
                     );
@@ -190,7 +190,10 @@ begin
 
             -- === Layer 0 accumulator ===
             if en_reg_la0_acc = '1' then
-                reg_la0_acc <= signed(reg_la0_acc) + signed(reg_la0_st8);
+                reg_la0_acc <= std_logic_vector(
+                    signed(reg_la0_acc) +
+                    signed(reg_la0_st8)
+                );
             end if;
 
             -- === Layer 1 ===
