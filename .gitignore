@@ -10,7 +10,6 @@
 *.ip_user_files/
 *.runs/
 *.sim/
-*.srcs/
 .Xil/
 
 # Ficheiros de log e diário (journal) do Vivado
