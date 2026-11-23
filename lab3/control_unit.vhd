@@ -14,7 +14,7 @@ architecture behavioral of control_unit is
 
     signal current_state, next_state : fsm_state;
 
-    signal layer1_adders : std_logic_vector(5 downto 0) := (others => '0'); -- 6 layers of adders
+    signal layer0_adders : std_logic_vector(5 downto 0) := (others => '0'); -- 6 layers of adders
     signal h_done, read_done, mul0_done, mul1_done : std_logic;
     signal IM_address : std_logic_vector(6 downto 0);
     signal WM0_address : std_logic_vector(9 downto 0);
@@ -57,15 +57,15 @@ begin
             end if;
             
             -- Adder tree control
-            layer1_adders <= layer1_adders(4 downto 0) & mul0_done;
+            layer0_adders <= layer0_adders(4 downto 0) & mul0_done;
             en_sum1 <= mul0_done;
-            en_sum2 <= layer1_adders(0);
-            en_sum3 <= layer1_adders(1);
-            en_sum4 <= layer1_adders(2);
-            en_sum5 <= layer1_adders(3);
-            en_sum6 <= layer1_adders(4);
+            en_sum2 <= layer0_adders(0);
+            en_sum3 <= layer0_adders(1);
+            en_sum4 <= layer0_adders(2);
+            en_sum5 <= layer0_adders(3);
+            en_sum6 <= layer0_adders(4);
 
-            if layer1_adders(5) = '1' then
+            if layer0_adders(5) = '1' then
                 en_accum_reg <= '1';
                 en_accum_adder <= '1';
             
