@@ -66,7 +66,7 @@ architecture archi of datapath is
     type LA0_STAGE7_T is array(natural range <>) of std_logic_vector(18-1 downto 0);
 
     type LA1_STAGE1_T is array(natural range <>) of std_logic_vector(30-1 downto 0);
-    type LA1_STAGE2_T is array(natural range <>) of std_logic_vector(37-1 downto 0);
+    type LA1_STAGE2_T is array(natural range <>) of std_logic_vector(32-1 downto 0);
     -- === Data registers ===
     -- Input buffers
     signal input_buff : std_logic_vector((INPUT_WIDTH*MULT_COUNT)-1 downto 0);
@@ -282,9 +282,9 @@ begin
                 gen_la1_st1: for i in 0 to 10-1 loop -- This is still parallel
                     reg_la1_st1(i) <=
                         std_logic_vector(
-                            signed(reg_h) +
+                            signed(reg_h) *
                             signed(weight1_buff((i+1)*WEIGHT1_WIDTH-1 downto i*WEIGHT1_WIDTH))
-                        );
+                        )(37-1 downto 5); -- divide by 32
                 end loop;
             end if;
 
