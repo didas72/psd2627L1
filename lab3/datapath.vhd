@@ -19,6 +19,10 @@ entity datapath is
         en_i_reg : in std_logic; -- increment input address if set to 1
         en_w0_reg : in std_logic; -- increment weight0 address if set to 1
         en_w1_reg : in std_logic; -- increment weight1 address if set to 1
+        -- Buffer registers
+        en_reg_i_buff : in std_logic; -- buffer input values if set to 1
+        en_reg_w0_buff : in std_logic; -- buffer weight0 values if set to 1
+        en_reg_w1_buff : in std_logic; -- buffer weight1 values if set to 1
         -- Data registers (L0 enables)
         en_reg_la0_st1 : in std_logic; -- save the operation result if set to 1
         en_reg_la0_st2 : in std_logic; -- save the operation result if set to 1
@@ -64,6 +68,10 @@ architecture archi of datapath is
     type LA1_STAGE1_T is array(natural range <>) of std_logic_vector(30-1 downto 0);
     type LA1_STAGE2_T is array(natural range <>) of std_logic_vector(37-1 downto 0);
     -- === Data registers ===
+    -- Input buffers
+    signal input_buff : std_logic_vector((INPUT_WIDTH*MULT_COUNT)-1 downto 0);
+    signal weight0_buff : std_logic_vector((WEIGHT0_WIDTH*MULT_COUNT)-1 downto 0);
+    signal weight1_buff : std_logic_vector(79 downto 0);
     -- Layer 0
     signal reg_la0_st1 : LA0_STAGE1_T(112-1 downto 0);
     signal reg_la0_st2 : LA0_STAGE2_T(56-1 downto 0);
@@ -80,7 +88,7 @@ architecture archi of datapath is
     signal reg_la1_st1 : LA1_STAGE1_T(10-1 downto 0);
     signal reg_la1_st2 : LA1_STAGE1_T(10-1 downto 0);
 
-    -- Address registers
+    -- === Address registers ===
     signal reg_i_addr : signed(2 downto 0);
     signal reg_w0_addr : signed(2 downto 0);
     signal reg_w1_addr : signed(2 downto 0);
@@ -94,9 +102,47 @@ begin
     begin
         if rising_edge(clk) then
             if rst = '1' then
+                -- Address registers
                 reg_i_addr <= (others => '0');
                 reg_w0_addr <= (others => '0');
                 reg_w1_addr <= (others => '0');
+                -- Input buffers
+                input_buff <= (others => '0');
+                weight0_buff <= (others => '0');
+                weight1_buff <= (others => '0');
+                -- Reset layer 0
+                rst_la0_st1: for i in 0 to 112-1 loop -- This is still parallel
+                    reg_la0_st1(i) <= (others => '0');
+                end loop;
+                rst_la0_st2: for i in 0 to 56-1 loop -- This is still parallel
+                    reg_la0_st2(i) <= (others => '0');
+                end loop;
+                rst_la0_st3: for i in 0 to 28-1 loop -- This is still parallel
+                    reg_la0_st3(i) <= (others => '0');
+                end loop;
+                rst_la0_st4: for i in 0 to 14-1 loop -- This is still parallel
+                    reg_la0_st4(i) <= (others => '0');
+                end loop;
+                rst_la0_st5: for i in 0 to 7-1 loop -- This is still parallel
+                    reg_la0_st5(i) <= (others => '0');
+                end loop;
+                rst_la0_st6: for i in 0 to 4-1 loop -- This is still parallel
+                    reg_la0_st6(i) <= (others => '0');
+                end loop;
+                rst_la0_st7: for i in 0 to 2-1 loop -- This is still parallel
+                    reg_la0_st7(i) <= (others => '0');
+                end loop;
+                reg_la0_st8 <= (others => '0');
+                reg_la0_acc <= (others => '0');
+                -- Reset intermediate result
+                reg_h <= (others => '0');
+                -- Reset layer 1
+                rst_la1_st1: for i in 0 to 10-1 loop -- This is still parallel
+                    reg_la1_st1(i) <= (others => '0');
+                end loop;
+                rst_la1_st2: for i in 0 to 10-1 loop -- This is still parallel
+                    reg_la1_st2(i) <= (others => '0');
+                end loop;
             else
                 if en_i_reg = '1' then
                     reg_i_addr <= reg_i_addr + 1;
@@ -111,17 +157,27 @@ begin
         end if;
     end process;
 
-    process (clk)
+    process (clk, rst)
     begin
-        if rising_edge(clk) then
+        if rising_edge(clk) and rst = '0' then
+            -- === Input buffers ===
+            if en_reg_i_buff = '1' then
+                input_buff <= input_bus;
+            end if;
+            if en_reg_w0_buff = '1' then
+                weight0_buff <= weight0_bus;
+            end if;
+            if en_reg_w1_buff = '1' then
+                weight1_buff <= weight1_bus;
+            end if;
             -- === Layer 0 tree ===
             if en_reg_la0_st1 = '1' then
                 -- Layer 0, stage 1, 112 multipliers
                 gen_la1: for i in 0 to 112-1 loop -- This is still parallel
                     reg_la0_st1(i) <=
                         std_logic_vector(
-                            signed(input_bus((i+1)*INPUT_WIDTH-1 downto i*INPUT_WIDTH)) *
-                            signed(weight0_bus((i+1)*WEIGHT0_WIDTH-1 downto i*WEIGHT0_WIDTH))
+                            signed(input_buff((i+1)*INPUT_WIDTH-1 downto i*INPUT_WIDTH)) *
+                            signed(weight0_buff((i+1)*WEIGHT0_WIDTH-1 downto i*WEIGHT0_WIDTH))
                         );
                 end loop;
             end if;
@@ -227,7 +283,7 @@ begin
                     reg_la1_st1(i) <=
                         std_logic_vector(
                             signed(reg_h) +
-                            signed(weight1_bus((i+1)*WEIGHT1_WIDTH-1 downto i*WEIGHT1_WIDTH))
+                            signed(weight1_buff((i+1)*WEIGHT1_WIDTH-1 downto i*WEIGHT1_WIDTH))
                         );
                 end loop;
             end if;
@@ -242,6 +298,9 @@ begin
                         );
                 end loop;
             end if;
+
+            -- TODO: Save result?
+            -- TODO: Argmax
         end if;
     end process;
 end;
