@@ -25,6 +25,8 @@ entity datapath is
         en_reg_h : in std_logic; -- save the ReLu result if set to 1
         -- Data registers (L1 enables)
         en_reg_la1_stN : in std_logic_vector(2-1 downto 0); -- save result of layer 1 stage N+1 if bit N is set to 1
+        -- Output registers
+        en_reg_o : in std_logic; -- save the result of the NN if set to 1
 
         -- === Data input buses ===
         input_bus : in std_logic_vector((INPUT_WIDTH*MULT_COUNT)-1 downto 0);
@@ -72,6 +74,8 @@ architecture archi of datapath is
     -- Layer 1
     signal reg_la1_st1 : LA1_STAGE1_T(10-1 downto 0);
     signal reg_la1_st2 : LA1_STAGE2_T(10-1 downto 0);
+    -- Output registers
+    signal reg_o : LA1_STAGE2_T(10-1 downto 0); -- reused type on purpose
 
     -- === Address registers ===
     signal reg_i_addr : signed(2 downto 0);
@@ -288,7 +292,13 @@ begin
                 end loop;
             end if;
 
-            -- TODO: Save result?
+            -- === Output registers ===
+            if en_reg_o = '1' then
+                gen_o: for i in 0 to 10-1 loop -- This is still parallel
+                    reg_o(i) <= reg_la1_st2(i);
+                end loop;
+            end if;
+
             -- TODO: Argmax
         end if;
     end process;
