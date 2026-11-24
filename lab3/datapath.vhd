@@ -267,9 +267,13 @@ begin
                 gen_la1_st1: for i in 0 to 10-1 loop -- This is still parallel
                     reg_la1_st1(i) <=
                         std_logic_vector(
-                            signed(reg_h) *
-                            signed(weight1_buff((i+1)*WEIGHT1_WIDTH-1 downto i*WEIGHT1_WIDTH))
-                        )(37-1 downto 5); -- divide by 32
+                            resize(
+                                shift_right(
+                                    signed(reg_h) *
+                                    signed(weight1_buff((i+1)*8-1 downto i*8)),
+                                5),
+                            32)
+                        );
                 end loop;
             end if;
 
