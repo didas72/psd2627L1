@@ -71,7 +71,7 @@ architecture archi of datapath is
     signal reg_h : std_logic_vector(22-1 downto 0);
     -- Layer 1
     signal reg_la1_st1 : LA1_STAGE1_T(10-1 downto 0);
-    signal reg_la1_st2 : LA1_STAGE1_T(10-1 downto 0);
+    signal reg_la1_st2 : LA1_STAGE2_T(10-1 downto 0);
 
     -- === Address registers ===
     signal reg_i_addr : signed(2 downto 0);
