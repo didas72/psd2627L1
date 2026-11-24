@@ -38,6 +38,9 @@ entity datapath is
         weight0_addr : out std_logic_vector(2 downto 0);
         weight1_addr : out std_logic_vector(2 downto 0);
 
+        -- === Result output buses ===
+        h_out : out std_logic_vector(22-1 downto 0);
+
         -- === Result output ===
         result : out std_logic_vector(3 downto 0)
     );
@@ -86,6 +89,8 @@ begin
     input_addr <= std_logic_vector(reg_i_addr);
     weight0_addr <= std_logic_vector(reg_w0_addr);
     weight1_addr <= std_logic_vector(reg_w1_addr);
+
+    h_out <= reg_h;
 
     process (clk, rst)
     begin
