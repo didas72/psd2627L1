@@ -29,83 +29,139 @@ architecture behavioral of control_unit is
 
 begin
 
+    process (next_state)
+    begin
+        state <= next_state;
+    end
+
+
     process (clk)
     begin
-        if rising_edge(clk) then            
-            
-            --! Add case statement to select state
+        if rising_edge(clk) then
 
-            --* s_pipelineFill --------------------------------------------------
-            -- Defining addresses
-            IM_address <= std_logic_vector(8 * img + row); -- k/112 is converted into "row" since the pixels are processed 1 row at a time (112 pixels per row)
-            WM0_address <= std_logic_vector(7 * hAddress + row);
-            
-            -- Defaults
-            hValid <= '0';
-            en_reg_la0 <= (others => '0');
-            row <= row+1;
+            case state is
 
-            if start = '1' then
-                read_done <= '1'; -- setting it now allows it to be read as done in the next cycle
-            end if;
+                --* s_pipelineFill --------------------------------------------------
+                when s_pipelineFill =>
+                    -- Defining addresses
+                    IM_address <= std_logic_vector(8 * img + row); -- k/112 is converted into "row" since the pixels are processed 1 row at a time (112 pixels per row)
+                    WM0_address <= std_logic_vector(7 * hAddress + row);
+                    WM1_address <= std_logic_vector(hAddress);
+                    
+                    -- Defaults
+                    hValid <= '0';
+                    en_reg_la0 <= (others => '0');
+                    row <= row+1;
 
-            --* Layer 0
-            if read_done = '1' then -- first data is ready, operation can begin
-                layer0_counter <= layer0_counter+1;
-                en_reg_la0 <= (others => '1');
-                en_reg_acc <= 1;
-            end if;
+                    if start = '1' then
+                        read_done <= '1'; -- setting it now allows it to be read as done in the next cycle
+                    end if;
 
-            --! REVER, tenho de ficar neste estado até os stages estarem todos cheios. Só a partir daí é que a cada ciclo, chega um valor novo ao accumulator.
-            if layer0_counter = 7 then
-                next_state = s_pipelineRun; -- pipeline filled, go to "run" state   --! Isto devia ir para outro processo que define as transições do estado
-            end if;
+                    --* Layer 0
+                    if read_done = '1' then -- first data is ready, operation can begin
+                        layer0_counter <= layer0_counter+1;
+                        en_reg_la0 <= (others => '1');
+                        en_reg_acc <= 1;
+                    end if;
 
-
-
-            --* s_pipelineRun -------------------------------------------
-            -- Defining addresses
-            IM_address <= std_logic_vector(8 * img + row); -- k/112 is converted into "row" since the pixels are processed 1 row at a time (112 pixels per row)
-            WM0_address <= std_logic_vector(7 * hAddress + row);
-            --! MISSING WM1_address
-            
-            -- Defaults
-            hValid <= '0';
-            en_reg_h <= '0';
-            en_reg_acc <= '1';
-            row <= row+1;
-
-            --* Layer 0
-            en_reg_la0 <= (others => '1');
-
-            if row = 7 then -- if all rows have been processed, store the value+address of h and reset the counter
-                en_reg_h <= '1';
-                h_valid <= '1';
-                hAddress_old <= hAddress;
-                hAddress <= hAddress+1;
-                reset_accum <= '1';
-                row <= 0;
-            end if;
+                    --! REVER, tenho de ficar neste estado até os stages estarem todos cheios. Só a partir daí é que a cada ciclo, chega um valor novo ao accumulator.
+                    if layer0_counter = 7 then
+                        next_state = s_pipelineRun; --* pipeline filled, go to "run" state
+                    end if;
 
 
-            --* Layer 1
-            if hValid = '1' then
-                en_reg_la1_st1 <= '1';
-            else
-                en_reg_la1_st1 <= '0';
-            end if;
 
-            if en_reg_la1_st1 = '1' then
-                en_reg_la0_st2 <= '1';
-            else
-                en_reg_la1_st2 <= '0';
-            end if;
+                --* s_pipelineRun ---------------------------------------------------
+                when s_pipelineRun =>
+                    -- Defining addresses
+                    IM_address <= std_logic_vector(8 * img + row); -- k/112 is converted into "row" since the pixels are processed 1 row at a time (112 pixels per row)
+                    WM0_address <= std_logic_vector(7 * hAddress + row);
+                    WM1_address <= std_logic_vector(hAddress);
+                    
+                    -- Defaults
+                    hValid <= '0';
+                    en_reg_h <= '0';
+                    en_reg_acc <= '1';
+                    row <= row+1;
 
-            if en_reg_la1_st2 <= '1' then
-                en_reg_la1_out <= '1';
-            else
-                en_reg_la1_out <= '0';
-            end if;
+                    --* Layer 0
+                    en_reg_la0 <= (others => '1');
+
+                    if row = 7 then -- if all rows have been processed, store the value+address of h and reset the counter
+                        if hAddress = 128 then  -- Check hAddress == 128
+                            next_state <= s_pipelineFlush;  --* Change state
+                        end if;
+                        en_reg_h <= '1';
+                        h_valid <= '1';
+                        hAddress_old <= hAddress;
+                        hAddress <= hAddress+1;
+                        reset_accum <= '1';
+                        row <= 0;
+                    end if;
+
+
+                    --* Layer 1
+                    if hValid = '1' then
+                        en_reg_la1_st1 <= '1';
+                    else
+                        en_reg_la1_st1 <= '0';
+                    end if;
+
+                    if en_reg_la1_st1 = '1' then
+                        en_reg_la0_st2 <= '1';
+                    else
+                        en_reg_la1_st2 <= '0';
+                    end if;
+
+                    if en_reg_la1_st2 <= '1' then
+                        en_reg_la1_out <= '1';
+                    else
+                        en_reg_la1_out <= '0';
+                    end if;
+
+
+                
+                --* s_pipelineFlush -------------------------------------------------
+                when s_pipelineFlush =>
+                    -- Defining addresses
+                    IM_address <= std_logic_vector(8 * img + row); -- k/112 is converted into "row" since the pixels are processed 1 row at a time (112 pixels per row)
+                    WM0_address <= std_logic_vector(7 * hAddress + row);
+                    WM1_address <= std_logic_vector(hAddress);
+
+                    --* Layer 0
+                    en_reg_la0 <= (others => '1');
+
+                    if row = 7 then -- if all rows have been processed, store the value+address of h and reset the counter
+                        en_reg_h <= '1';
+                        h_valid <= '1';
+                        hAddress_old <= hAddress;
+                    end if;
+
+                    --* Layer 1
+                    if hValid = '1' then
+                        en_reg_la1_st1 <= '1';
+                    else
+                        en_reg_la1_st1 <= '0';
+                    end if;
+
+                    if en_reg_la1_st1 = '1' then
+                        en_reg_la0_st2 <= '1';
+                    else
+                        en_reg_la1_st2 <= '0';
+                    end if;
+
+                    if en_reg_la1_st2 <= '1' then
+                        en_reg_la1_out <= '1';
+                        
+                        next_state <= s_getResult;  --* Change state
+                    else
+                        en_reg_la1_out <= '0';
+                    end if;
+
+
+
+                    --* s_getResult -------------------------------------------------
+                    when s_getResult =>
 
 
 
