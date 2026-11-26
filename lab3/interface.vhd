@@ -78,15 +78,16 @@ architecture Behavioral of interface is
   end component;
 
   component circuito
-    port(
-      clk     : in  std_logic;
-      rst     : in  std_logic;
-      exec    : in  std_logic;
-      instr   : in  std_logic_vector(1 downto 0);
-      data_in : in  std_logic_vector(7 downto 0);
-      reg1    : out std_logic_vector(7 downto 0);
-      res     : out std_logic_vector(7 downto 0)
-      );
+  port (
+    clk        : in  std_logic;
+    rst        : in  std_logic;
+    img        : in  std_logic;
+    start      : in  std_logic;
+    hOut       : out std_logic_vector(22-1 downto 0);
+    hValid     : out std_logic;
+    hAddr      : out std_logic_vector(6 downto 0);
+    result     : out std_logic_vector(3 downto 0)
+  );
   end component;
 
 begin

@@ -34,9 +34,9 @@ entity datapath is
         weight1_bus : in std_logic_vector(79 downto 0);
 
         -- === Address output buses ===
-        input_addr : out std_logic_vector(2 downto 0);
-        weight0_addr : out std_logic_vector(2 downto 0);
-        weight1_addr : out std_logic_vector(2 downto 0);
+        --input_addr : out std_logic_vector(2 downto 0);
+        --weight0_addr : out std_logic_vector(2 downto 0);
+        --weight1_addr : out std_logic_vector(2 downto 0);
 
         -- === Result output buses ===
         h_out : out std_logic_vector(22-1 downto 0);
@@ -86,9 +86,9 @@ architecture archi of datapath is
     signal reg_w1_addr : signed(2 downto 0);
 begin
     -- Address outputs
-    input_addr <= std_logic_vector(reg_i_addr);
-    weight0_addr <= std_logic_vector(reg_w0_addr);
-    weight1_addr <= std_logic_vector(reg_w1_addr);
+    --input_addr <= std_logic_vector(reg_i_addr);
+    --weight0_addr <= std_logic_vector(reg_w0_addr);
+    --weight1_addr <= std_logic_vector(reg_w1_addr);
 
     h_out <= reg_h;
 
