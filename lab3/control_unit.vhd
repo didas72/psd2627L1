@@ -22,7 +22,7 @@ architecture behavioral of control_unit is
     type fsm_state is (s_init, s_pipelineFill, s_pipelineRun, s_pipelineFlush, s_getResult);
 
     signal current_state, next_state : fsm_state;
-    signal layer0_counter : unsigned(3 downto 0) := "1"; -- 7 layers of adders + 1 multiplier
+    signal layer0_counter : unsigned(3 downto 0) := "1111"; -- 7 layers of adders + 1 multiplier
     signal read_done : std_logic;
     signal row : unsigned(2 downto 0) := (others => '0'); -- each image has 7 rows (784 pixels / 112) + 1 empty
     signal en_reg_la0 : std_logic_vector(7 downto 0) := (others => '0'); -- enables of all stages of layer 0

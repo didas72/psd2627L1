@@ -56,6 +56,11 @@ architecture Behavioral of interface is
   -- registered input switches
   signal sw_reg : std_logic_vector(15 downto 0);
 
+
+  signal done, hValid :std_logic;
+  signal hAddr        :std_logic_vector(6 downto 0);
+  signal hOut         :std_logic_vector(22-1 downto 0);
+
   component disp7
     port (
       digit3, digit2, digit1, digit0 : in  std_logic_vector(3 downto 0);
@@ -81,7 +86,8 @@ architecture Behavioral of interface is
   port (
     clk        : in  std_logic;
     rst        : in  std_logic;
-    img        : in  std_logic;
+    done       : in  std_logic;
+    img        : in  std_logic_vector(3 downto 0);
     start      : in  std_logic;
     hOut       : out std_logic_vector(22-1 downto 0);
     hValid     : out std_logic;
@@ -90,6 +96,7 @@ architecture Behavioral of interface is
   );
   end component;
 
+
 begin
   led <= sw_reg;
 
@@ -97,8 +104,8 @@ begin
 
   inst_disp7 : disp7 port map(
     digit3    => sw_reg(3 downto 0),
-    digit2    => "0",
-    digit1    => "0",
+    digit2    => "0000",
+    digit1    => "0000",
     digit0    => result,
     dp3       => '0',
     dp2       => '0',
@@ -114,13 +121,13 @@ begin
   inst_circuito : circuito port map(
     clk     => clk,
     rst     => btnUreg,
+    done    => done,
     start   => btnCreg,
     img     => sw_reg(3 downto 0),
-    done    => sw_reg(7 downto 0),
-    resut   => result,
-    hValid  =>,
-    hAddr   =>,
-    hOut    =>
+    result   => result,
+    hValid  => hValid,
+    hAddr   => hAddr,
+    hOut    => hOut
     );
 
   -- Debounces btn signals
